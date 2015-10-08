@@ -9,6 +9,7 @@ import android.widget.ListView;
 import com.android_dev.tatenuufrn.R;
 import com.android_dev.tatenuufrn.adapters.EventAdapter;
 import com.android_dev.tatenuufrn.domain.Event;
+import com.android_dev.tatenuufrn.helpers.EventPopulator;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class ListEvents extends ActionBarActivity {
         setContentView(R.layout.activity_list_events);
 
 
-
+        EventPopulator.populate(1);
         listEvents = (ListView) findViewById(R.id.event_list);
         events = Event.listAll(Event.class);
         events = Event.listAll(Event.class);
