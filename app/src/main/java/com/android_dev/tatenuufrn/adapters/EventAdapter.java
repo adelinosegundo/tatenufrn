@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android_dev.tatenuufrn.R;
@@ -19,6 +20,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
     static class ViewHolder{
         TextView nameText;
         TextView descriptionText;
+        ImageView image;
     }
 
     public EventAdapter(Context context, int id, List<Event> objects) {
@@ -35,7 +37,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
 
             holder.nameText =  (TextView) view.findViewById(R.id.titleTextView);
             holder.descriptionText =  (TextView) view.findViewById(R.id.descriptionTextView);
-
+            holder.image = (ImageView) view.findViewById(R.id.imageView);
             view.setTag(holder);
         } else {
             holder = (ViewHolder) view.getTag();
@@ -44,6 +46,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
         if (event!= null) {
             holder.nameText.setText(event.getTitle());
             holder.descriptionText.setText(event.getDescription());
+            holder.image.setImageBitmap(event.getImage());
         }
         return view;
     }
