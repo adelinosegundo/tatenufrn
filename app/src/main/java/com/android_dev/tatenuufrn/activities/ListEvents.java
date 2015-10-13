@@ -1,9 +1,10 @@
 package com.android_dev.tatenuufrn.activities;
 
+import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.StrictMode;
-import android.provider.MediaStore;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,22 +18,34 @@ import com.android_dev.tatenuufrn.adapters.EventAdapter;
 import com.android_dev.tatenuufrn.domain.Event;
 import com.android_dev.tatenuufrn.helpers.DbBitmapUtility;
 import com.android_dev.tatenuufrn.helpers.EventPopulator;
+import com.raizlabs.android.dbflow.list.FlowQueryList;
+import com.raizlabs.android.dbflow.structure.container.JSONModel;
 
+import org.json.JSONArray;
+
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class ListEvents extends ActionBarActivity {
     private ListView listEvents;
     private EventAdapter adapter;
-    private List<Event> events;
+    private FlowQueryList<Event> events;
     private Button populateButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_events);
         listEvents = (ListView) findViewById(R.id.event_list);
-
-        adapter = new EventAdapter(this, R.layout.event_row, Event.listAll(Event.class));
+        events = new FlowQueryList<Event>(Event.class);
+        adapter = new EventAdapter(this, R.layout.event_row, events.getCursorList().getAll());
         listEvents.setAdapter(adapter);
 
 
@@ -41,13 +54,49 @@ public class ListEvents extends ActionBarActivity {
                 new Button.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                        StrictMode.setThreadPolicy(policy);
-                        Bitmap bitmap = DbBitmapUtility.LoadImageFromWebOperations("http://icons.iconarchive.com/icons/martz90/circle/512/android-icon.png");
-                        EventPopulator.populate(5, bitmap);
-                        System.out.println("populated");
-                        adapter = new EventAdapter(v.getContext(), R.layout.event_row, Event.listAll(Event.class));
-                        listEvents.setAdapter(adapter);
+                        class EventLoaderAssyncTask extends AsyncTask<String, Void, List<Event>> {
+
+                            @Override
+                            protected void onPostExecute(List<Event> result) {
+                                super.onPostExecute(result);
+                                System.out.println(result.toString());
+                                adapter.clear();
+                                adapter.addAll(result);
+                                adapter.notifyDataSetChanged();
+                                listEvents.setAdapter(adapter);
+                            }
+
+                            protected List<Event> doInBackground(String... params) {
+                                List<Event> result = new ArrayList<Event>();
+
+                                try {
+
+                                    InputStream is = new URL(params[0]).openStream();
+                                    BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+                                    StringBuilder sb = new StringBuilder();
+                                    int cp;
+                                    while ((cp = rd.read()) != -1) {
+                                        sb.append((char) cp);
+                                    }
+                                    String jsonText = sb.toString();
+
+                                    JSONArray arr = new JSONArray(jsonText);
+                                    for (int i=0; i < arr.length(); i++) {
+                                        JSONModel<Event> jsonModel = new JSONModel<>(arr.getJSONObject(i), Event.class);
+                                        jsonModel.save();
+                                        result.add(jsonModel.toModel());
+                                    }
+
+                                    return result;
+                                }
+                                catch(Throwable t) {
+                                    t.printStackTrace();
+                                }
+                                return null;
+                            }
+                        }
+
+                        new EventLoaderAssyncTask().execute("http://192.168.25.20:3000/events.json");
                     }
                 }
         );

@@ -14,7 +14,7 @@ public class EventPopulator {
             Event event = new Event();
             event.setTitle("Title " + i);
             event.setDescription("Description " + i);
-            event.setImage(image);
+            event.setImageBitmap(image);
             event.save();
         }
     }

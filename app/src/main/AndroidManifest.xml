@@ -3,14 +3,10 @@
     package="com.android_dev.tatenuufrn" >
 
     <application
+        android:name=".applications.TatenuUFRNApplication"
         android:allowBackup="true"
-        android:name="com.orm.SugarApp"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <meta-data android:name="DATABASE" android:value="tatenufrn.db" />
-        <meta-data android:name="VERSION" android:value="3" />
-        <meta-data android:name="QUERY_LOG" android:value="true" />
-        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.android_dev.tatenuufrn.domain" />
         <activity
             android:name=".activities.ListEvents"
             android:label="@string/title_activity_list_events" >

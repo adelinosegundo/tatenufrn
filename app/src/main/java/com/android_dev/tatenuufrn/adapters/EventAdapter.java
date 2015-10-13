@@ -1,5 +1,6 @@
 package com.android_dev.tatenuufrn.adapters;
 
+import android.app.ListActivity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.android_dev.tatenuufrn.R;
 import com.android_dev.tatenuufrn.domain.Event;
+import com.raizlabs.android.dbflow.list.FlowCursorList;
 
 import java.util.List;
 
@@ -17,6 +19,8 @@ import java.util.List;
  * Created by adelinosegundo on 10/8/15.
  */
 public class EventAdapter extends ArrayAdapter<Event> {
+
+
     static class ViewHolder{
         TextView nameText;
         TextView descriptionText;
@@ -46,7 +50,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
         if (event!= null) {
             holder.nameText.setText(event.getTitle());
             holder.descriptionText.setText(event.getDescription());
-            holder.image.setImageBitmap(event.getImage());
+            holder.image.setImageBitmap(event.getImageBitmap());
         }
         return view;
     }

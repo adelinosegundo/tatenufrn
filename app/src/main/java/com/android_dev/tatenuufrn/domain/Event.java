@@ -1,30 +1,59 @@
 package com.android_dev.tatenuufrn.domain;
 
 import android.graphics.Bitmap;
-import android.location.Address;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.android_dev.tatenuufrn.databases.TatenUFRNDatabase;
 import com.android_dev.tatenuufrn.helpers.DbBitmapUtility;
-import com.orm.SugarRecord;
-
-import java.sql.Date;
+import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.PrimaryKey;
+import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.annotation.ModelContainer;
+import com.raizlabs.android.dbflow.structure.BaseModel;
 
 /**
  * Created by adelinosegundo on 10/7/15.
  */
-public class Event extends SugarRecord<Event> implements Parcelable {
 
+@Table(databaseName = TatenUFRNDatabase.NAME)
+@ModelContainer
+public class Event extends BaseModel implements Parcelable {
+
+
+    @Column
+    @PrimaryKey(autoincrement = false)
+    private String id;
+
+    @Column
     private String title;
+
+    @Column
     private String description;
+
+    @Column
     private String imageName;
+
+    @Column
     private String image;
+
+    @Column
     private String startTime;
+
+    @Column
     private String endTime;
+
+    @Column
     private String address;
-    private Float radiusTrigger;
+
+    @Column
+    private Double radiusTrigger;
+
+    @Column
     private Integer fbEventId;
-    private Float rating;
+
+    @Column
+    private Double rating;
 
 
     public Event(){
@@ -33,6 +62,15 @@ public class Event extends SugarRecord<Event> implements Parcelable {
     public Event(String title, String description){
         this.title = title;
         this.description = description;
+    }
+
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -59,11 +97,19 @@ public class Event extends SugarRecord<Event> implements Parcelable {
         this.imageName = imageName;
     }
 
-    public Bitmap getImage() {
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public Bitmap getImageBitmap() {
         return DbBitmapUtility.decodeBitmapFromBase64(image);
     }
 
-    public void setImage(Bitmap image) {
+    public void setImageBitmap(Bitmap image) {
         this.imageName = image.toString();
         this.image = DbBitmapUtility.encodeBitmapToBase64(image);
     }
@@ -92,11 +138,11 @@ public class Event extends SugarRecord<Event> implements Parcelable {
         this.address = address;
     }
 
-    public Float getRadiusTrigger() {
+    public Double getRadiusTrigger() {
         return radiusTrigger;
     }
 
-    public void setRadiusTrigger(Float radiusTrigger) {
+    public void setRadiusTrigger(Double radiusTrigger) {
         this.radiusTrigger = radiusTrigger;
     }
 
@@ -108,11 +154,11 @@ public class Event extends SugarRecord<Event> implements Parcelable {
         this.fbEventId = fbEventId;
     }
 
-    public Float getRating() {
+    public Double getRating() {
         return rating;
     }
 
-    public void setRating(Float rating) {
+    public void setRating(Double rating) {
         this.rating = rating;
     }
 
@@ -129,8 +175,13 @@ public class Event extends SugarRecord<Event> implements Parcelable {
         dest.writeString(endTime);
         dest.writeString(address);
         dest.writeInt(fbEventId);
-        dest.writeFloat(radiusTrigger);
-        dest.writeFloat(rating);
-        this.getImage().writeToParcel(dest,0);
+        dest.writeDouble(radiusTrigger);
+        dest.writeDouble(rating);
+        this.getImageBitmap().writeToParcel(dest,0);
+    }
+
+    @Override
+    public String toString(){
+        return this.title;
     }
 }
