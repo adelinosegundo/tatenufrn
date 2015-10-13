@@ -96,7 +96,7 @@ public class ListEvents extends ActionBarActivity {
                             }
                         }
 
-                        new EventLoaderAssyncTask().execute("http://192.168.25.20:3000/events.json");
+                        new EventLoaderAssyncTask().execute("http://tatenufrn-webservice.herokuapp.com/events.json");
                     }
                 }
         );
