@@ -81,8 +81,10 @@ public class ListEvents extends ActionBarActivity {
                                     JSONArray arr = new JSONArray(jsonText);
                                     for (int i=0; i < arr.length(); i++) {
                                         JSONModel<Event> jsonModel = new JSONModel<>(arr.getJSONObject(i), Event.class);
-                                        jsonModel.save();
-                                        result.add(jsonModel.toModel());
+                                        Event event = jsonModel.toModel();
+                                        event.updateImageString();
+                                        event.save();
+                                        result.add(event);
                                     }
                                     System.out.println("Events saved");
                                     return result;

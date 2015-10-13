@@ -3,6 +3,7 @@ package com.android_dev.tatenuufrn.domain;
 import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.android_dev.tatenuufrn.databases.TatenUFRNDatabase;
 import com.android_dev.tatenuufrn.helpers.DbBitmapUtility;
@@ -32,10 +33,10 @@ public class Event extends BaseModel implements Parcelable {
     private String description;
 
     @Column
-    private String imageName;
+    private String imageUrl;
 
     @Column
-    private String image;
+    private String imageString;
 
     @Column
     private String startTime;
@@ -89,29 +90,33 @@ public class Event extends BaseModel implements Parcelable {
         this.description = description;
     }
 
-    public String getImageName() {
-        return imageName;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImageName(String imageName) {
-        this.imageName = imageName;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
-    public String getImage() {
-        return image;
+    public String getImageString() {
+        return imageString;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImageString(String imageString) {
+        this.imageString = imageString;
+    }
+
+    public void updateImageString(){
+        System.out.println(this.imageUrl);
+        this.setImageBitmap(DbBitmapUtility.LoadImageFromWebOperations(imageUrl));
     }
 
     public Bitmap getImageBitmap() {
-        return DbBitmapUtility.decodeBitmapFromBase64(image);
+        return DbBitmapUtility.decodeBitmapFromBase64(imageString);
     }
 
     public void setImageBitmap(Bitmap image) {
-        this.imageName = image.toString();
-        this.image = DbBitmapUtility.encodeBitmapToBase64(image);
+        this.imageString = DbBitmapUtility.encodeBitmapToBase64(image);
     }
 
     public String getStartTime() {

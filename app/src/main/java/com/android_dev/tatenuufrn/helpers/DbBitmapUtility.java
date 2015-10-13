@@ -21,11 +21,6 @@ public class DbBitmapUtility {
         return stream.toByteArray();
     }
 
-    // convert from byte array to bitmap
-    public static Bitmap getImage(byte[] image) {
-        return BitmapFactory.decodeByteArray(image, 0, image.length);
-    }
-
     public static Bitmap LoadImageFromWebOperations(String url_string) {
         try {
             URL url = new URL(url_string);
