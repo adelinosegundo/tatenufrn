@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -47,7 +48,15 @@ public class ListEvents extends ActionBarActivity {
         events = new FlowQueryList<Event>(Event.class);
         adapter = new EventAdapter(this, R.layout.event_row);
         listEvents.setAdapter(adapter);
-
+        listEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String event_id = ((Event) adapterView.getItemAtPosition(i)).getId();
+                Intent intent = new Intent(getBaseContext(), EventDetail.class);
+                intent.putExtra("event_id", event_id);
+                startActivity(intent);
+            }
+        });
 
         populateButton = (Button) findViewById(R.id.populateButton);
         populateButton.setOnClickListener(

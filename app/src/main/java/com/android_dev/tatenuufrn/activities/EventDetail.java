@@ -6,14 +6,23 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.android_dev.tatenuufrn.R;
-
+import com.android_dev.tatenuufrn.domain.Event;
+import com.android_dev.tatenuufrn.domain.Event$Table;
+import com.raizlabs.android.dbflow.list.FlowCursorList;
+import com.raizlabs.android.dbflow.sql.builder.Condition;
 
 public class EventDetail extends ActionBarActivity {
+    FlowCursorList<Event> events;
+    Event event;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_detail);
+        String event_id = getIntent().getExtras().getString("event_id");
+        events = new FlowCursorList<>(true, Event.class, Condition.column(Event$Table.ID).like((event_id)));
+        event = events.getItem(0);
+        System.out.println(event);
     }
 
     @Override
