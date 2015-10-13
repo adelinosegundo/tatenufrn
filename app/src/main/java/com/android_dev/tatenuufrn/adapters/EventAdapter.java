@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.android_dev.tatenuufrn.R;
 import com.android_dev.tatenuufrn.domain.Event;
 import com.raizlabs.android.dbflow.list.FlowCursorList;
+import com.raizlabs.android.dbflow.list.FlowQueryList;
 
 import java.util.List;
 
@@ -19,7 +20,14 @@ import java.util.List;
  * Created by adelinosegundo on 10/8/15.
  */
 public class EventAdapter extends ArrayAdapter<Event> {
+    private FlowQueryList<Event> events = new FlowQueryList<Event>(Event.class);
 
+    public void update() {
+        this.clear();
+        events.refresh();
+        this.addAll(events.getCursorList().getAll());
+        this.notifyDataSetChanged();
+    }
 
     static class ViewHolder{
         TextView nameText;
@@ -27,8 +35,9 @@ public class EventAdapter extends ArrayAdapter<Event> {
         ImageView image;
     }
 
-    public EventAdapter(Context context, int id, List<Event> objects) {
-        super(context, id, objects);
+    public EventAdapter(Context context, int id) {
+        super(context, id);
+        this.update();
     }
 
     public View getView(int position, View view, ViewGroup parent) {

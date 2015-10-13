@@ -45,7 +45,7 @@ public class ListEvents extends ActionBarActivity {
         setContentView(R.layout.activity_list_events);
         listEvents = (ListView) findViewById(R.id.event_list);
         events = new FlowQueryList<Event>(Event.class);
-        adapter = new EventAdapter(this, R.layout.event_row, events.getCursorList().getAll());
+        adapter = new EventAdapter(this, R.layout.event_row);
         listEvents.setAdapter(adapter);
 
 
@@ -59,14 +59,12 @@ public class ListEvents extends ActionBarActivity {
                             @Override
                             protected void onPostExecute(List<Event> result) {
                                 super.onPostExecute(result);
-                                System.out.println(result.toString());
-                                adapter.clear();
-                                adapter.addAll(result);
-                                adapter.notifyDataSetChanged();
-                                listEvents.setAdapter(adapter);
+                                System.out.println("Updating adapter");
+                                adapter.update();
                             }
 
                             protected List<Event> doInBackground(String... params) {
+                                System.out.println("Requesting events");
                                 List<Event> result = new ArrayList<Event>();
 
                                 try {
@@ -86,7 +84,7 @@ public class ListEvents extends ActionBarActivity {
                                         jsonModel.save();
                                         result.add(jsonModel.toModel());
                                     }
-
+                                    System.out.println("Events saved");
                                     return result;
                                 }
                                 catch(Throwable t) {
