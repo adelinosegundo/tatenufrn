@@ -9,10 +9,12 @@
         android:name=".applications.TatenuUFRNApplication"
         android:allowBackup="true"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:icon="@drawable/logo">
         <activity
             android:name=".activities.Login"
-            android:label="@string/title_activity_login" >
+            android:label="@string/title_activity_login"
+            android:theme="@style/LoginAppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -20,11 +22,11 @@
         </activity>
         <activity
             android:name=".activities.ListEvents"
-            android:label="@string/title_activity_list_events" >
+            android:label="" >
         </activity>
         <activity
             android:name=".activities.EventDetail"
-            android:label="@string/title_activity_event_detail" >
+            android:label="" >
         </activity>
     </application>
 

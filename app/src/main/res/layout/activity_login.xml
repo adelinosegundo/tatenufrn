@@ -11,13 +11,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="LOGIN"
+        android:text="tatenufrn"
         android:id="@+id/h1TextView"
+        android:typeface="sans"
+        android:gravity="center_horizontal"
+        android:textSize="25dp"
+        android:layout_marginTop="120dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="67dp"
-        android:typeface="serif"
-        android:textStyle="bold" />
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/usernameEditText"
+        android:textStyle="italic" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -27,7 +30,13 @@
         android:layout_below="@+id/h1TextView"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="78dp"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:typeface="serif"
+        android:text="Username"
+        android:textColor="#f3f3f3"
+        android:textColorHighlight="#f3f3f3"
+        android:textColorHint="#f3f3f3"
+        android:textColorLink="#f3f3f3" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -39,7 +48,14 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:typeface="serif"
+        android:fontFamily="serif"
+        android:textColor="#f3f3f3"
+        android:textColorHighlight="#f3f3f3"
+        android:textColorHint="#f3f3f3"
+        android:textColorLink="#f3f3f3"
+        android:textIsSelectable="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -49,4 +65,19 @@
         android:layout_below="@+id/passwordEditText"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="LOGIN"
+        android:id="@+id/h2TextView"
+        android:textColor="#fff"
+        android:typeface="serif"
+        android:textSize="18dp"
+        android:gravity="center_horizontal"
+        android:layout_below="@+id/h1TextView"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/h1TextView" />
+
 </RelativeLayout>
