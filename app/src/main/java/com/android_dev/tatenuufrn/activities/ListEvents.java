@@ -1,7 +1,6 @@
 package com.android_dev.tatenuufrn.activities;
 
-import android.app.ListActivity;
-import android.app.ProgressDialog;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
@@ -17,8 +16,6 @@ import android.widget.ListView;
 import com.android_dev.tatenuufrn.R;
 import com.android_dev.tatenuufrn.adapters.EventAdapter;
 import com.android_dev.tatenuufrn.domain.Event;
-import com.android_dev.tatenuufrn.helpers.DbBitmapUtility;
-import com.android_dev.tatenuufrn.helpers.EventPopulator;
 import com.raizlabs.android.dbflow.list.FlowQueryList;
 import com.raizlabs.android.dbflow.structure.container.JSONModel;
 

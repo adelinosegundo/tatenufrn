@@ -28,9 +28,8 @@
         android:background="@color/white"/>
 
     <TextView
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
+        android:text="Title Text Title Text Title Text Title Text Title Text"
         android:id="@+id/titleTextView"
         android:layout_row="0"
         android:layout_column="1"
@@ -39,23 +38,26 @@
         android:layout_toEndOf="@+id/imageView"
         android:textColor="@color/white"
         android:padding="5dp"
-        android:layout_gravity="fill_horizontal"
         android:ellipsize="none"
         android:scrollHorizontally="false"
         android:capitalize="characters"
         android:typeface="serif"
-        android:textAllCaps="true"/>
+        android:textAllCaps="true"
+        android:layout_width="0dp"
+        android:layout_gravity="fill_horizontal"/>
 
     <TextView
-        android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:text="New Text"
+        android:text="Description Description Description Description Description Description Description"
         android:id="@+id/descriptionTextView"
         android:layout_row="1"
         android:layout_column="1"
         android:textColor="@color/white"
         android:padding="5dp"
-        android:layout_gravity="fill_horizontal" />
+        android:layout_width="0dp"
+        android:layout_gravity="fill_horizontal"
+        android:ellipsize="none"
+        android:scrollHorizontally="false"/>
 
 
 </GridLayout>

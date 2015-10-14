@@ -1,7 +1,7 @@
 package com.android_dev.tatenuufrn.activities;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,7 +12,7 @@ import android.widget.EditText;
 import com.android_dev.tatenuufrn.R;
 
 
-public class Login extends ActionBarActivity {
+public class Login extends Activity {
     private EditText usernameEditText;
     private EditText passowrdEditText;
     private Button loginButton;
