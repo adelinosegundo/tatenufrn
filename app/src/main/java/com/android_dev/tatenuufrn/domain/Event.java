@@ -212,4 +212,10 @@ public class Event extends BaseModel implements Parcelable {
     public String toString(){
         return this.title;
     }
+
+    public boolean hasLocation() {
+        if (locX != 0.0 && locY != 0.0)
+            return true;
+        return false;
+    }
 }

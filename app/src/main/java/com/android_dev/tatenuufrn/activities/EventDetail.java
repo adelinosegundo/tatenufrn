@@ -9,14 +9,19 @@ import android.view.MenuItem;
 import com.android_dev.tatenuufrn.R;
 import com.android_dev.tatenuufrn.domain.Event;
 import com.android_dev.tatenuufrn.domain.Event$Table;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.raizlabs.android.dbflow.list.FlowCursorList;
 import com.raizlabs.android.dbflow.sql.builder.Condition;
 
-public class EventDetail extends Activity {
+public class EventDetail extends Activity implements OnMapReadyCallback {
     private FlowCursorList<Event> events;
     private Event event;
-    private MapFragment eventLocation;
+    private MapFragment eventLocationMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,12 +30,25 @@ public class EventDetail extends Activity {
         String event_id = getIntent().getExtras().getString("event_id");
         events = new FlowCursorList<>(true, Event.class, Condition.column(Event$Table.ID).like((event_id)));
         event = events.getItem(0);
-        eventLocation = MapFragment.newInstance();
+        eventLocationMap = MapFragment.newInstance();
+        eventLocationMap.getMapAsync(this);
         FragmentTransaction fragmentTransaction =
                 getFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.eventLocationContainer, eventLocation);
+        fragmentTransaction.add(R.id.eventLocationContainer, eventLocationMap);
         fragmentTransaction.commit();
     }
+
+    @Override
+    public void onMapReady(GoogleMap map) {
+        if (event.hasLocation()) {
+            LatLng eventLocation = new LatLng(event.getLocX(), event.getLocY());
+            map.addMarker(new MarkerOptions()
+                    .position(eventLocation)
+                    .title(event.getTitle()));
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(eventLocation, 17));
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
