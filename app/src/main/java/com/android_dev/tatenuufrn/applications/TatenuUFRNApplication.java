@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.SharedPreferences;
 
 import com.android_dev.tatenuufrn.databases.TatenUFRNDatabase;
+import com.android_dev.tatenuufrn.helpers.DateHelper;
 import com.raizlabs.android.dbflow.config.FlowManager;
 
 /**
@@ -17,6 +18,17 @@ public class TatenuUFRNApplication extends Application {
     public void onCreate() {
         super.onCreate();
         FlowManager.init(this);
+        resetApp();
+    }
+
+    public void resetApp(){
+        //ResetDB
         FlowManager.getDatabase(TatenUFRNDatabase.NAME).reset(this);
+
+        //ResetPreferences
+        SharedPreferences sharedPreferences = getSharedPreferences(TatenuUFRNApplication.SHARED_PREFERENCES_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("lastUpdated", "");
+        editor.commit();
     }
 }
