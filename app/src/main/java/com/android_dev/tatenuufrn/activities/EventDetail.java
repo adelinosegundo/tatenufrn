@@ -5,6 +5,8 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android_dev.tatenuufrn.R;
 import com.android_dev.tatenuufrn.domain.Event;
@@ -23,6 +25,10 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
     private Event event;
     private MapFragment eventLocationMap;
 
+    private TextView titleTextView;
+    private TextView descriptionTextView;
+    private ImageView imageImageView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +42,16 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
                 getFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.eventLocationContainer, eventLocationMap);
         fragmentTransaction.commit();
+
+        titleTextView = (TextView) findViewById(R.id.titleEventDetailTextView);
+        descriptionTextView = (TextView) findViewById(R.id.descriptionEventDetailTextView);
+        imageImageView = (ImageView) findViewById(R.id.eventDetailImageView);
+
+
+        titleTextView.setText(event.getTitle());
+        descriptionTextView.setText(event.getDescription());
+        imageImageView.setImageBitmap(event.getImageBitmap());
+
     }
 
     @Override
