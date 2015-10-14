@@ -1,6 +1,7 @@
 package com.android_dev.tatenuufrn.activities;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -8,12 +9,14 @@ import android.view.MenuItem;
 import com.android_dev.tatenuufrn.R;
 import com.android_dev.tatenuufrn.domain.Event;
 import com.android_dev.tatenuufrn.domain.Event$Table;
+import com.google.android.gms.maps.MapFragment;
 import com.raizlabs.android.dbflow.list.FlowCursorList;
 import com.raizlabs.android.dbflow.sql.builder.Condition;
 
 public class EventDetail extends Activity {
-    FlowCursorList<Event> events;
-    Event event;
+    private FlowCursorList<Event> events;
+    private Event event;
+    private MapFragment eventLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,8 +25,11 @@ public class EventDetail extends Activity {
         String event_id = getIntent().getExtras().getString("event_id");
         events = new FlowCursorList<>(true, Event.class, Condition.column(Event$Table.ID).like((event_id)));
         event = events.getItem(0);
-        System.out.println(event);
-        setTitle("My new title");
+        eventLocation = MapFragment.newInstance();
+        FragmentTransaction fragmentTransaction =
+                getFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.eventLocationContainer, eventLocation);
+        fragmentTransaction.commit();
     }
 
     @Override
