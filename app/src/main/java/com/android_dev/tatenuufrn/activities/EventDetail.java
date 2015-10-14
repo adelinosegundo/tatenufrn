@@ -1,6 +1,6 @@
 package com.android_dev.tatenuufrn.activities;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,7 +11,7 @@ import com.android_dev.tatenuufrn.domain.Event$Table;
 import com.raizlabs.android.dbflow.list.FlowCursorList;
 import com.raizlabs.android.dbflow.sql.builder.Condition;
 
-public class EventDetail extends ActionBarActivity {
+public class EventDetail extends Activity {
     FlowCursorList<Event> events;
     Event event;
 
@@ -23,6 +23,7 @@ public class EventDetail extends ActionBarActivity {
         events = new FlowCursorList<>(true, Event.class, Condition.column(Event$Table.ID).like((event_id)));
         event = events.getItem(0);
         System.out.println(event);
+        setTitle("My new title");
     }
 
     @Override
