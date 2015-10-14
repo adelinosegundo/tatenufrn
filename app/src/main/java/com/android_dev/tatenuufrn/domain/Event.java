@@ -39,10 +39,10 @@ public class Event extends BaseModel implements Parcelable {
     private String imageString;
 
     @Column
-    private String startTime;
+    private Integer startTime;
 
     @Column
-    private String endTime;
+    private Integer endTime;
 
     @Column
     private String address;
@@ -126,19 +126,19 @@ public class Event extends BaseModel implements Parcelable {
         this.imageString = DbBitmapUtility.encodeBitmapToBase64(image);
     }
 
-    public String getStartTime() {
+    public Integer getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(String startTime) {
+    public void setStartTime(Integer startTime) {
         this.startTime = startTime;
     }
 
-    public String getEndTime() {
+    public Integer getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(String endTime) {
+    public void setEndTime(Integer endTime) {
         this.endTime = endTime;
     }
 
@@ -199,8 +199,8 @@ public class Event extends BaseModel implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(title);
         dest.writeString(description);
-        dest.writeString(startTime);
-        dest.writeString(endTime);
+        dest.writeInt(startTime);
+        dest.writeInt(endTime);
         dest.writeString(address);
         dest.writeInt(fbEventId);
         dest.writeDouble(radiusTrigger);

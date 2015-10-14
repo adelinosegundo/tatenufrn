@@ -13,6 +13,6 @@ public class TatenuUFRNApplication extends Application {
     public void onCreate() {
         super.onCreate();
         FlowManager.init(this);
-        FlowManager.getDatabase(TatenUFRNDatabase.NAME).reset(this);
+//        FlowManager.getDatabase(TatenUFRNDatabase.NAME).reset(this);
     }
 }

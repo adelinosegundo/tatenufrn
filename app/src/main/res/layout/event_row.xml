@@ -15,7 +15,7 @@
     <ImageView
         android:layout_width="80dp"
         android:layout_height="100dp"
-        android:id="@+id/imageView"
+        android:id="@+id/eventRowImageView"
         android:minHeight="82dp"
         android:minWidth="82dp"
         android:maxHeight="82dp"
@@ -30,13 +30,13 @@
     <TextView
         android:layout_height="50dp"
         android:text="Title Text Title Text Title Text Title Text Title Text"
-        android:id="@+id/titleTextView"
+        android:id="@+id/titleEventRowTextView"
         android:layout_row="0"
         android:layout_column="1"
         android:layout_columnSpan="2"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/imageView"
+        android:layout_toEndOf="@+id/eventRowImageView"
         android:textColor="@color/white"
         android:ellipsize="none"
         android:scrollHorizontally="false"
@@ -53,7 +53,7 @@
     <TextView
         android:layout_height="50dp"
         android:text="Description Description Description Description Description Description Description"
-        android:id="@+id/descriptionTextView"
+        android:id="@+id/descriptionEventRowTextView"
         android:layout_row="1"
         android:layout_column="1"
         android:layout_rowSpan="2"
@@ -67,7 +67,7 @@
     <TextView
         android:layout_height="15dp"
         android:text="TIME LEFT"
-        android:id="@+id/timeTitleTextView"
+        android:id="@+id/timeTitleEventRowTextView"
         android:layout_row="1"
         android:layout_column="2"
         android:textColor="@color/white"
@@ -81,7 +81,7 @@
     <TextView
         android:layout_height="20dp"
         android:text="03:23"
-        android:id="@+id/timeTextView"
+        android:id="@+id/timeEventRowTextView"
         android:layout_row="2"
         android:layout_column="2"
         android:textColor="@color/green"
