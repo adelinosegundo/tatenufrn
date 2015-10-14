@@ -1,6 +1,7 @@
 package com.android_dev.tatenuufrn.adapters;
 
 import android.content.Context;
+import android.os.CountDownTimer;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by adelinosegundo on 10/8/15.
@@ -62,25 +65,44 @@ public class EventAdapter extends ArrayAdapter<Event> {
             holder = (ViewHolder) view.getTag();
         }
         Event event = getItem(position);
+
         Calendar nowCalendar = Calendar.getInstance();
-        Calendar eventStartCalendar = Calendar.getInstance();
-        Calendar eventEndCalendar = Calendar.getInstance();
-        eventStartCalendar.setTimeInMillis(event.getStartTime()*1000);
-        eventEndCalendar.setTimeInMillis(event.getEndTime() * 1000);
-        int nowSeconds = nowCalendar.get(Calendar.SECOND);
-        SimpleDateFormat sDate = new SimpleDateFormat("HH:mm");
-        int timeToEvent = event.getStartTime()-nowSeconds;
-        int timeLeftOfEvent = event.getEndTime()-nowSeconds;
+        nowCalendar.setTimeZone(TimeZone.getTimeZone("GMT"));
+        long nowMilis = System.currentTimeMillis();
+        nowMilis -= 10800000;
+
+        long startTime = event.getStartTime().longValue()*1000;
+        long endTime = event.getEndTime().longValue()*1000;
+
+        long timeToEvent = startTime - nowMilis;
+        long timeLeftOfEvent = endTime - nowMilis;
+
         if (event!= null) {
             holder.nameText.setText(event.getTitle());
             holder.descriptionText.setText(event.getDescription());
             holder.image.setImageBitmap(event.getImageBitmap());
             if (timeToEvent > 0) {
                 holder.timeTitleText.setText("TIME TO EVENT");
-                holder.timeText.setText(DateUtils.formatElapsedTime(timeToEvent));
+                final ViewHolder finalHolder = holder;
+                new CountDownTimer(timeToEvent, 1000) {
+                    public void onTick(long millisUntilFinished) {
+                        finalHolder.timeText.setText(EventAdapter.getTimeBetweenDates(millisUntilFinished));
+                    }
+                    public void onFinish() {
+                        finalHolder.timeText.setText("Started");
+                    }
+                }.start();
             } else if (timeLeftOfEvent > 0) {
                 holder.timeTitleText.setText("TIME LEFT");
-                holder.timeText.setText(DateUtils.formatElapsedTime(timeLeftOfEvent));
+                final ViewHolder finalHolder = holder;
+                new CountDownTimer(timeLeftOfEvent, 1000) {
+                    public void onTick(long millisUntilFinished) {
+                        finalHolder.timeText.setText(EventAdapter.getTimeBetweenDates(millisUntilFinished));
+                    }
+                    public void onFinish() {
+                        finalHolder.timeText.setText("Over");
+                    }
+                }.start();
             } else {
                 holder.timeTitleText.setText("EVENT IS OVER");
                 holder.timeText.setText("");
@@ -88,5 +110,25 @@ public class EventAdapter extends ArrayAdapter<Event> {
 
         }
         return view;
+    }
+
+    public static String getTimeBetweenDates(long miliesLeft){
+
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(miliesLeft);
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(miliesLeft);
+        long hours = TimeUnit.MILLISECONDS.toHours(miliesLeft);
+        long days = TimeUnit.MILLISECONDS.toDays(miliesLeft);
+
+        String timeBetweenDates = "";
+        if (days > 0){
+            timeBetweenDates += days + " days ";
+            seconds -= days * 24 * 60 * 60;
+        }
+        timeBetweenDates += hours + ":";
+        seconds -= hours * 60 * 60;
+        timeBetweenDates += minutes + ":";
+        seconds -= minutes * 60;
+        timeBetweenDates += seconds;
+        return timeBetweenDates;
     }
 }
