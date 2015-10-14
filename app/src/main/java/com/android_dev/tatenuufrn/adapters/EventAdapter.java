@@ -12,12 +12,15 @@ import android.widget.TextView;
 
 import com.android_dev.tatenuufrn.R;
 import com.android_dev.tatenuufrn.domain.Event;
+import com.android_dev.tatenuufrn.helpers.EventCountDownTimer;
 import com.raizlabs.android.dbflow.list.FlowQueryList;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
@@ -30,7 +33,9 @@ public class EventAdapter extends ArrayAdapter<Event> {
     public void update() {
         this.clear();
         events.refresh();
-        this.addAll(events.getCursorList().getAll());
+        List<Event> eventsList = events.getCursorList().getAll();
+        Collections.reverse(eventsList);
+        this.addAll(eventsList);
         this.notifyDataSetChanged();
     }
 
@@ -66,69 +71,32 @@ public class EventAdapter extends ArrayAdapter<Event> {
         }
         Event event = getItem(position);
 
-        Calendar nowCalendar = Calendar.getInstance();
-        nowCalendar.setTimeZone(TimeZone.getTimeZone("GMT"));
-        long nowMilis = System.currentTimeMillis();
-        nowMilis -= 10800000;
-
-        long startTime = event.getStartTime().longValue()*1000;
-        long endTime = event.getEndTime().longValue()*1000;
-
-        long timeToEvent = startTime - nowMilis;
-        long timeLeftOfEvent = endTime - nowMilis;
-
         if (event!= null) {
+            Calendar nowCalendar = Calendar.getInstance();
+            nowCalendar.setTimeZone(TimeZone.getTimeZone("GMT"));
+            long nowMilis = System.currentTimeMillis();
+            nowMilis -= 10800000;
+
+            long startTime = event.getStartTime().longValue()*1000;
+            long endTime = event.getEndTime().longValue()*1000;
+
+            long timeToEvent = startTime - nowMilis;
+            long timeLeftOfEvent = endTime - nowMilis;
+
             holder.nameText.setText(event.getTitle());
             holder.descriptionText.setText(event.getDescription());
             holder.image.setImageBitmap(event.getImageBitmap());
             if (timeToEvent > 0) {
                 holder.timeTitleText.setText("TIME TO EVENT");
-                final ViewHolder finalHolder = holder;
-                new CountDownTimer(timeToEvent, 1000) {
-                    public void onTick(long millisUntilFinished) {
-                        finalHolder.timeText.setText(EventAdapter.getTimeBetweenDates(millisUntilFinished));
-                    }
-                    public void onFinish() {
-                        finalHolder.timeText.setText("Started");
-                    }
-                }.start();
+                new EventCountDownTimer(holder.timeText, timeToEvent, 1000, "Started").start();
             } else if (timeLeftOfEvent > 0) {
                 holder.timeTitleText.setText("TIME LEFT");
-                final ViewHolder finalHolder = holder;
-                new CountDownTimer(timeLeftOfEvent, 1000) {
-                    public void onTick(long millisUntilFinished) {
-                        finalHolder.timeText.setText(EventAdapter.getTimeBetweenDates(millisUntilFinished));
-                    }
-                    public void onFinish() {
-                        finalHolder.timeText.setText("Over");
-                    }
-                }.start();
+                new EventCountDownTimer(holder.timeText, timeLeftOfEvent, 1000, "Over").start();
             } else {
-                holder.timeTitleText.setText("EVENT IS OVER");
-                holder.timeText.setText("");
+                holder.timeTitleText.setText("DATE");
+                holder.timeText.setText("15/10");
             }
-
         }
         return view;
-    }
-
-    public static String getTimeBetweenDates(long miliesLeft){
-
-        long seconds = TimeUnit.MILLISECONDS.toSeconds(miliesLeft);
-        long minutes = TimeUnit.MILLISECONDS.toMinutes(miliesLeft);
-        long hours = TimeUnit.MILLISECONDS.toHours(miliesLeft);
-        long days = TimeUnit.MILLISECONDS.toDays(miliesLeft);
-
-        String timeBetweenDates = "";
-        if (days > 0){
-            timeBetweenDates += days + " days ";
-            seconds -= days * 24 * 60 * 60;
-        }
-        timeBetweenDates += hours + ":";
-        seconds -= hours * 60 * 60;
-        timeBetweenDates += minutes + ":";
-        seconds -= minutes * 60;
-        timeBetweenDates += seconds;
-        return timeBetweenDates;
     }
 }
