@@ -3,46 +3,30 @@ package com.android_dev.tatenuufrn.activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.AsyncTask;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 
 import com.android_dev.tatenuufrn.R;
 import com.android_dev.tatenuufrn.adapters.EventAdapter;
 import com.android_dev.tatenuufrn.domain.Event;
 import com.raizlabs.android.dbflow.list.FlowQueryList;
-import com.raizlabs.android.dbflow.structure.container.JSONModel;
 
-import org.json.JSONArray;
-
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class ListEvents extends Activity {
     private ListView listEvents;
     private EventAdapter adapter;
-    private FlowQueryList<Event> events;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_events);
         listEvents = (ListView) findViewById(R.id.event_list);
-        events = new FlowQueryList<Event>(Event.class);
         adapter = new EventAdapter(this, R.layout.event_row);
         listEvents.setAdapter(adapter);
         listEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -55,16 +39,6 @@ public class ListEvents extends Activity {
             }
         });
 
-    }
-
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode==0) {
-            Bitmap foto = (Bitmap) data.getExtras().get("data");
-
-        }
     }
 
     @Override
