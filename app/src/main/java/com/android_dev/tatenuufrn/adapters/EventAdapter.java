@@ -45,6 +45,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
         TextView timeTitleText;
         TextView timeText;
         ImageView image;
+        EventCountDownTimer countDownTimer;
     }
 
     public EventAdapter(Context context, int id) {
@@ -86,12 +87,16 @@ public class EventAdapter extends ArrayAdapter<Event> {
             holder.nameText.setText(event.getTitle());
             holder.descriptionText.setText(event.getDescription());
             holder.image.setImageBitmap(event.getImageBitmap());
+            if (holder.countDownTimer != null)
+                holder.countDownTimer.cancel();
             if (timeToEvent > 0) {
                 holder.timeTitleText.setText("TIME TO EVENT");
-                new EventCountDownTimer(holder.timeText, timeToEvent, 1000, "Started").start();
+                holder.countDownTimer = new EventCountDownTimer(holder.timeText, timeToEvent, 1000, "Started");
+                holder.countDownTimer.start();
             } else if (timeLeftOfEvent > 0) {
                 holder.timeTitleText.setText("TIME LEFT");
-                new EventCountDownTimer(holder.timeText, timeLeftOfEvent, 1000, "Over").start();
+                holder.countDownTimer = new EventCountDownTimer(holder.timeText, timeLeftOfEvent, 1000, "Over");
+                holder.countDownTimer.start();
             } else {
                 holder.timeTitleText.setText("DATE");
                 holder.timeText.setText("15/10");
