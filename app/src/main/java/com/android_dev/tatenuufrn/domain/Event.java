@@ -62,6 +62,8 @@ public class Event extends BaseModel implements Parcelable {
     @Column
     private Double locY;
 
+    @Column
+    private Integer updatedAt;
 
 
     public Event(){
@@ -188,6 +190,14 @@ public class Event extends BaseModel implements Parcelable {
 
     public void setLocY(Double locY) {
         this.locY = locY;
+    }
+
+    public Integer getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Integer updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.android_dev.tatenuufrn.activities;
 
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,13 +14,13 @@ import com.android_dev.tatenuufrn.R;
 import com.android_dev.tatenuufrn.adapters.EventAdapter;
 import com.android_dev.tatenuufrn.async_tasks.EventLoaderAsyncTask;
 import com.android_dev.tatenuufrn.domain.Event;
-import com.raizlabs.android.dbflow.list.FlowQueryList;
 
 
 
 public class ListEvents extends Activity {
-    private ListView listEvents;
-    private EventAdapter adapter;
+    ListView listEvents;
+    EventAdapter adapter;
+    private EventLoaderAsyncTask eventLoaderAsyncTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +38,11 @@ public class ListEvents extends Activity {
                 startActivity(intent);
             }
         });
-        new EventLoaderAsyncTask().execute(adapter);
+
+        if (eventLoaderAsyncTask == null) {
+            eventLoaderAsyncTask = new EventLoaderAsyncTask(this);
+            eventLoaderAsyncTask.execute();
+        }
 
     }
 
