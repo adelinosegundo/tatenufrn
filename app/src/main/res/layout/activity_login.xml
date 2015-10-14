@@ -7,10 +7,9 @@
     tools:context="com.android_dev.tatenuufrn.activities.Login"
     android:background="#855e9f">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="80dp"
         android:text="tatenufrn"
         android:id="@+id/h1TextView"
         android:typeface="sans"
@@ -20,7 +19,8 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_alignEnd="@+id/usernameEditText"
-        android:textStyle="italic" />
+        android:textStyle="italic"
+        android:src="@drawable/logo2"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -74,7 +74,7 @@
         android:id="@+id/h2TextView"
         android:textColor="#fff"
         android:typeface="serif"
-        android:textSize="18dp"
+        android:textSize="20dp"
         android:gravity="center_horizontal"
         android:layout_below="@+id/h1TextView"
         android:layout_alignParentStart="true"
