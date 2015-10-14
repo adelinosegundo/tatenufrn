@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">TatenuUFRN</string>
     <string name="title_activity_list_events">tatenufrn</string>
-
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">tatenufrn | settings</string>
     <string name="title_activity_event_detail">tatenufrn</string>
+    <string name="title_activity_login">tatenufrn</string>
 </resources>
