@@ -56,6 +56,13 @@ public class Event extends BaseModel implements Parcelable {
     @Column
     private Double rating;
 
+    @Column
+    private Double locX;
+
+    @Column
+    private Double locY;
+
+
 
     public Event(){
     }
@@ -167,6 +174,22 @@ public class Event extends BaseModel implements Parcelable {
         this.rating = rating;
     }
 
+    public Double getLocX() {
+        return locX;
+    }
+
+    public void setLocX(Double locX) {
+        this.locX = locX;
+    }
+
+    public Double getLocY() {
+        return locY;
+    }
+
+    public void setLocY(Double locY) {
+        this.locY = locY;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -188,5 +211,11 @@ public class Event extends BaseModel implements Parcelable {
     @Override
     public String toString(){
         return this.title;
+    }
+
+    public boolean hasLocation() {
+        if (locX != 0.0 && locY != 0.0)
+            return true;
+        return false;
     }
 }

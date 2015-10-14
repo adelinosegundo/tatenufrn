@@ -13,6 +13,7 @@ import android.widget.ListView;
 
 import com.android_dev.tatenuufrn.R;
 import com.android_dev.tatenuufrn.adapters.EventAdapter;
+import com.android_dev.tatenuufrn.async_tasks.EventLoaderAsyncTask;
 import com.android_dev.tatenuufrn.domain.Event;
 import com.raizlabs.android.dbflow.list.FlowQueryList;
 
@@ -38,6 +39,7 @@ public class ListEvents extends Activity {
                 startActivity(intent);
             }
         });
+        new EventLoaderAsyncTask().execute(adapter);
 
     }
 

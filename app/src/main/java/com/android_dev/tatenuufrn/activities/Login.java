@@ -47,56 +47,6 @@ public class Login extends Activity {
                 startActivity(listEventsIntent);
             }
         });
-
-//        populateButton = (Button) findViewById(R.id.populateButton);
-//        populateButton.setOnClickListener(
-//                new Button.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        class EventLoaderAssyncTask extends AsyncTask<String, Void, List<Event>> {
-//
-//                            @Override
-//                            protected void onPostExecute(List<Event> result) {
-//                                super.onPostExecute(result);
-//                            }
-//
-//                            protected List<Event> doInBackground(String... params) {
-//                                System.out.println("Requesting events");
-//                                List<Event> result = new ArrayList<Event>();
-//
-//                                try {
-//
-//                                    InputStream is = new URL(params[0]).openStream();
-//                                    BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
-//                                    StringBuilder sb = new StringBuilder();
-//                                    int cp;
-//                                    while ((cp = rd.read()) != -1) {
-//                                        sb.append((char) cp);
-//                                    }
-//                                    String jsonText = sb.toString();
-//
-//                                    JSONArray arr = new JSONArray(jsonText);
-//                                    for (int i=0; i < arr.length(); i++) {
-//                                        JSONModel<Event> jsonModel = new JSONModel<>(arr.getJSONObject(i), Event.class);
-//                                        Event event = jsonModel.toModel();
-//                                        event.updateImageString();
-//                                        event.save();
-//                                        result.add(event);
-//                                    }
-//                                    System.out.println("Events saved");
-//                                    return result;
-//                                }
-//                                catch(Throwable t) {
-//                                    t.printStackTrace();
-//                                }
-//                                return null;
-//                            }
-//                        }
-//
-//                        new EventLoaderAssyncTask().execute("http://tatenufrn-webservice.herokuapp.com/events.json");
-//                    }
-//                }
-//        );
     }
 
     @Override
