@@ -61,7 +61,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
             holder = new ViewHolder();
 
             holder.nameText =  (TextView) view.findViewById(R.id.titleEventRowTextView);
-            holder.descriptionText =  (TextView) view.findViewById(R.id.descriptionEventRowTextView);
+            //holder.descriptionText =  (TextView) view.findViewById(R.id.descriptionEventRowTextView);
             holder.image = (ImageView) view.findViewById(R.id.eventRowImageView);
             holder.timeTitleText = (TextView) view.findViewById(R.id.timeTitleEventRowTextView);
             holder.timeText = (TextView) view.findViewById(R.id.timeEventRowTextView);
@@ -84,7 +84,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
             long timeLeftOfEvent = endTime - nowMilis;
 
             holder.nameText.setText(event.getTitle());
-            holder.descriptionText.setText(event.getDescription());
+            //holder.descriptionText.setText(event.getDescription());
             holder.image.setImageBitmap(event.getImageBitmap());
             if (timeToEvent > 0) {
                 holder.timeTitleText.setText("TIME TO EVENT");

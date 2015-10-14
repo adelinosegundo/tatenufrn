@@ -8,7 +8,8 @@
     android:rowCount="4"
     android:orientation="horizontal"
     android:descendantFocusability="blocksDescendants"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="#e81d4e" >
 
     <ImageView
         android:layout_width="wrap_content"
@@ -20,7 +21,8 @@
         android:layout_column="0"
         android:layout_columnSpan="2"
         android:layout_gravity="center_horizontal"
-        android:paddingTop="20dp" />
+        android:paddingTop="20dp"
+        android:background="#fff"/>
 
 
     <TextView
@@ -41,7 +43,8 @@
         android:paddingRight="10dp"
         android:paddingBottom="20dp"
         android:textSize="20dp"
-        android:gravity="center_horizontal" />
+        android:gravity="center_horizontal"
+        android:textStyle="bold|italic" />
 
     <TextView
         android:layout_width="wrap_content"
