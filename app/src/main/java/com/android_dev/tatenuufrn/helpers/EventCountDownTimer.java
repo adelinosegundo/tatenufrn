@@ -31,6 +31,8 @@ public class EventCountDownTimer extends CountDownTimer {
         long hours = TimeUnit.MILLISECONDS.toHours(miliesLeft);
         long days = TimeUnit.MILLISECONDS.toDays(miliesLeft);
 
+        minutes -= hours*60;
+
         String timeBetweenDates = "";
         if (days > 0){
             timeBetweenDates += days + " days ";

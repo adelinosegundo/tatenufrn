@@ -20,14 +20,15 @@
         android:layout_row="0"
         android:layout_column="0"
         android:layout_columnSpan="2"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="fill_horizontal"
         android:paddingTop="20dp"
-        android:background="#fff"/>
+        android:background="#fff"
+        />
 
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
         android:text="Title Title Title Title Title Title Title Title Title"
         android:id="@+id/titleEventDetailTextView"
         android:layout_alignParentTop="true"
@@ -44,7 +45,8 @@
         android:paddingBottom="20dp"
         android:textSize="20dp"
         android:gravity="center_horizontal"
-        android:textStyle="bold|italic" />
+        android:textStyle="bold|italic"
+        android:textAlignment="center" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -57,7 +59,8 @@
         android:layout_column="0"
         android:layout_columnSpan="2"
         android:textColor="@color/white"
-        android:padding="10dp" />
+        android:padding="10dp"
+        android:gravity="center" />
 
 
 
@@ -65,7 +68,7 @@
         android:id="@+id/eventLocationContainer"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="200dp"
         android:layout_below="@+id/eventDetailImageView"
         android:layout_toEndOf="@+id/eventDetailImageView"
         android:layout_row="3"
