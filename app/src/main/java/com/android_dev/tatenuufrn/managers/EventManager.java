@@ -1,8 +1,5 @@
-package com.android_dev.tatenuufrn.async_tasks;
+package com.android_dev.tatenuufrn.managers;
 
-import android.os.AsyncTask;
-
-import com.android_dev.tatenuufrn.adapters.EventAdapter;
 import com.android_dev.tatenuufrn.domain.Event;
 import com.raizlabs.android.dbflow.structure.container.JSONModel;
 
@@ -17,23 +14,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by adelinosegundo on 10/13/15.
+ * Created by adelinosegundo on 10/14/15.
  */
-public class EventLoaderAsyncTask extends AsyncTask<EventAdapter, Void, EventAdapter> {
+public class EventManager {
+    public static void refreshEvents(String lastUpdated){
 
-    @Override
-    protected void onPostExecute(EventAdapter result) {
-        super.onPostExecute(result);
-        result.update();
-    }
-
-    protected EventAdapter doInBackground(EventAdapter... adapter) {
-        System.out.println("Requesting events");
         List<Event> result = new ArrayList<Event>();
-
         try {
-
-            InputStream is = new URL("http://tatenufrn-webservice.herokuapp.com/events.json").openStream();
+            String urlString = "http://tatenufrn-webservice.herokuapp.com/events.json";
+            if (!lastUpdated.equals(""))
+                urlString += "?last_updated="+lastUpdated;
+            System.out.println("Requesting events from "+urlString);
+            InputStream is = new URL(urlString).openStream();
             BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
             StringBuilder sb = new StringBuilder();
             int cp;
@@ -51,12 +43,9 @@ public class EventLoaderAsyncTask extends AsyncTask<EventAdapter, Void, EventAda
                 result.add(event);
             }
             System.out.println("Events saved");
-            return adapter[0];
         }
         catch(Throwable t) {
             t.printStackTrace();
         }
-        return null;
     }
-
 }
