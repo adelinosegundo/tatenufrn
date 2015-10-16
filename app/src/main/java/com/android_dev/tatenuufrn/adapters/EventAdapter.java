@@ -12,8 +12,11 @@ import android.widget.TextView;
 
 import com.android_dev.tatenuufrn.R;
 import com.android_dev.tatenuufrn.domain.Event;
+import com.android_dev.tatenuufrn.domain.Event$Adapter;
+import com.android_dev.tatenuufrn.domain.Event$Table;
 import com.android_dev.tatenuufrn.helpers.EventCountDownTimer;
 import com.raizlabs.android.dbflow.list.FlowQueryList;
+import com.raizlabs.android.dbflow.sql.language.Select;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,8 +36,12 @@ public class EventAdapter extends ArrayAdapter<Event> {
     public void update() {
         this.clear();
         events.refresh();
-        List<Event> eventsList = events.getCursorList().getAll();
-        Collections.reverse(eventsList);
+        List<Event> eventsList = new Select()
+                .from(Event.class)
+                .where()
+                .orderBy(false, Event$Table.UPDATEDAT)
+                .queryList();
+//        List<Event> eventsList = events.getCursorList().getAll();
         this.addAll(eventsList);
         this.notifyDataSetChanged();
     }

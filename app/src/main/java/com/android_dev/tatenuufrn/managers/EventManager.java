@@ -21,7 +21,7 @@ public class EventManager {
 
         List<Event> result = new ArrayList<Event>();
         try {
-            String urlString = "http://tatenufrn-webservice.herokuapp.com/events.json";
+            String urlString = "http://tatenufrn-webservice.herokuapp.com/events/retrive_updated.json";
             if (!lastUpdated.equals(""))
                 urlString += "?last_updated="+lastUpdated;
             System.out.println("Requesting events from "+urlString);
