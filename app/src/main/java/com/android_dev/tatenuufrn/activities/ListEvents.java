@@ -1,7 +1,6 @@
 package com.android_dev.tatenuufrn.activities;
 
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -20,6 +19,12 @@ import com.android_dev.tatenuufrn.applications.TatenuUFRNApplication;
 import com.android_dev.tatenuufrn.domain.Event;
 import com.android_dev.tatenuufrn.helpers.DateHelper;
 import com.android_dev.tatenuufrn.managers.EventManager;
+import com.raizlabs.android.dbflow.structure.container.JSONModel;
+
+import org.json.JSONArray;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ListEvents extends Activity {
@@ -90,7 +95,7 @@ public class ListEvents extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    private class EventLoaderAsyncTask extends AsyncTask<Void, Void, Void> {
+    private class EventLoaderAsyncTask extends AsyncTask<Void, Integer, Void> {
 
         @Override
         protected void onPreExecute() {
@@ -110,9 +115,32 @@ public class ListEvents extends Activity {
             swipeRefreshLayout.setRefreshing(false);
         }
 
-        protected Void doInBackground(Void... adapter) {
+        @Override
+        protected void onProgressUpdate(Integer... progress){
+            adapter.update();
+        }
+
+        protected Void doInBackground(Void... params) {
             SharedPreferences sharedPreferences = getSharedPreferences(TatenuUFRNApplication.SHARED_PREFERENCES_NAME, MODE_PRIVATE);
-            EventManager.refreshEvents(sharedPreferences.getString("lastUpdated", ""));
+            String lastUpdated = sharedPreferences.getString("lastUpdated", "");
+//            EventManager.refreshEvents(lastUpdated);
+            JSONArray arr = EventManager.getUpdatedData(lastUpdated);
+            try {
+                List<Event> result = new ArrayList<Event>();
+                for (int i=0; i < arr.length(); i++) {
+                    JSONModel<Event> jsonModel = new JSONModel<>(arr.getJSONObject(i), Event.class);
+                    Event event = jsonModel.toModel();
+                    event.updateImageString();
+                    event.save();
+                    result.add(event);
+                    publishProgress(i, arr.length());
+                }
+                System.out.println("Events saved");
+            }
+            catch(Throwable t) {
+                t.printStackTrace();
+            }
+
             return null;
         }
 
