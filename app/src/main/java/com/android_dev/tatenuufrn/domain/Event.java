@@ -75,6 +75,27 @@ public class Event extends BaseModel implements Parcelable {
     }
 
 
+    protected Event(Parcel in) {
+        id = in.readString();
+        title = in.readString();
+        description = in.readString();
+        imageUrl = in.readString();
+        imageString = in.readString();
+        address = in.readString();
+    }
+
+    public static final Creator<Event> CREATOR = new Creator<Event>() {
+        @Override
+        public Event createFromParcel(Parcel in) {
+            return new Event(in);
+        }
+
+        @Override
+        public Event[] newArray(int size) {
+            return new Event[size];
+        }
+    };
+
     public String getId() {
         return id;
     }

@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,17 +39,8 @@ public class ListEvents extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_events);
         listEvents = (ListView) findViewById(R.id.event_list);
-        adapter = new EventAdapter(this, R.layout.event_row);
+        adapter = new EventAdapter(this, R.layout.activity_list_events);
         listEvents.setAdapter(adapter);
-        listEvents.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String event_id = ((Event) adapterView.getItemAtPosition(i)).getId();
-                Intent intent = new Intent(getBaseContext(), EventDetail.class);
-                intent.putExtra("event_id", event_id);
-                startActivity(intent);
-            }
-        });
 
         swipeRefreshLayout=(SwipeRefreshLayout) findViewById(R.id.listEventsSwipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -58,7 +50,8 @@ public class ListEvents extends Activity {
             }
         });
         swipeRefreshLayout.post(new Runnable() {
-            @Override public void run() {
+            @Override
+            public void run() {
                 refreshEvents();
                 swipeRefreshLayout.setRefreshing(true);
             }

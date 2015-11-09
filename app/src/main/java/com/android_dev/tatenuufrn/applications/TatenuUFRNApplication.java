@@ -18,7 +18,7 @@ public class TatenuUFRNApplication extends Application {
     public void onCreate() {
         super.onCreate();
         FlowManager.init(this);
-        resetApp();
+//        resetApp();
     }
 
     public void resetApp(){

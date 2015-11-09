@@ -2,6 +2,7 @@ package com.android_dev.tatenuufrn.activities;
 
 import android.content.Intent;
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,7 +12,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.android_dev.tatenuufrn.R;
+import com.android_dev.tatenuufrn.applications.TatenuUFRNApplication;
 import com.android_dev.tatenuufrn.domain.Event;
+import com.android_dev.tatenuufrn.helpers.DateHelper;
 import com.raizlabs.android.dbflow.structure.container.JSONModel;
 
 import org.json.JSONArray;
@@ -34,15 +37,25 @@ public class Login extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_login);
+        SharedPreferences sharedPreferences = getSharedPreferences(TatenuUFRNApplication.SHARED_PREFERENCES_NAME, MODE_PRIVATE);
+
+
         usernameEditText = (EditText) findViewById(R.id.usernameEditText);
         passowrdEditText = (EditText) findViewById(R.id.passwordEditText);
-        loginButton = (Button) findViewById(R.id.loginButton);
 
+        usernameEditText.setText(sharedPreferences.getString("username", ""));
+        passowrdEditText.setText(sharedPreferences.getString("password", ""));
+
+        loginButton = (Button) findViewById(R.id.loginButton);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences sharedPreferences = getSharedPreferences(TatenuUFRNApplication.SHARED_PREFERENCES_NAME, MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("username", usernameEditText.getText().toString());
+                editor.putString("password", passowrdEditText.getText().toString());
+                editor.commit();
                 Intent listEventsIntent = new Intent(getBaseContext(), ListEvents.class);
                 startActivity(listEventsIntent);
             }

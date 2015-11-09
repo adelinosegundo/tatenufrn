@@ -1,8 +1,10 @@
 package com.android_dev.tatenuufrn.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.CountDownTimer;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android_dev.tatenuufrn.R;
+import com.android_dev.tatenuufrn.activities.EventDetail;
 import com.android_dev.tatenuufrn.domain.Event;
 import com.android_dev.tatenuufrn.domain.Event$Adapter;
 import com.android_dev.tatenuufrn.domain.Event$Table;
@@ -32,7 +35,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class EventAdapter extends ArrayAdapter<Event> {
     private FlowQueryList<Event> events = new FlowQueryList<Event>(Event.class);
-
+    private Context context;
     public void update() {
         this.clear();
         events.refresh();
@@ -57,11 +60,13 @@ public class EventAdapter extends ArrayAdapter<Event> {
 
     public EventAdapter(Context context, int id) {
         super(context, id);
+        this.context = context;
         this.update();
     }
 
     public View getView(int position, View view, ViewGroup parent) {
         ViewHolder holder = null;
+        final Event event = getItem(position);
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater)
                     getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -74,10 +79,20 @@ public class EventAdapter extends ArrayAdapter<Event> {
             holder.timeTitleText = (TextView) view.findViewById(R.id.timeTitleEventRowTextView);
             holder.timeText = (TextView) view.findViewById(R.id.timeEventRowTextView);
             view.setTag(holder);
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String event_id = event.getId();
+                    Intent intent = new Intent(context, EventDetail.class);
+                    intent.putExtra("event_id", event_id);
+                    context.startActivity(intent);
+                }
+            });
         } else {
             holder = (ViewHolder) view.getTag();
         }
-        Event event = getItem(position);
+
 
         if (event!= null) {
             Calendar nowCalendar = Calendar.getInstance();
