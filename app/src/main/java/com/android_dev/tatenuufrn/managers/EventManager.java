@@ -20,6 +20,9 @@ import java.util.concurrent.Callable;
  * Created by adelinosegundo on 10/14/15.
  */
 public class EventManager {
+//    private static final String HOST = "http://tatenufrn-webservice.herokuapp.com/api/v1";
+    private static final String HOST = "http://192.168.25.2:3000/api/v1";
+
     public static void refreshEvents(String lastUpdated){
         JSONArray arr = EventManager.getUpdatedData(lastUpdated);
         EventManager.saveUpdatedData(arr);
@@ -44,7 +47,8 @@ public class EventManager {
 
     public static JSONArray getUpdatedData(String lastUpdated){
         try {
-            String urlString = "http://tatenufrn-webservice.herokuapp.com/api/v1/events";
+            String urlString = HOST + "/events";
+
             if (!lastUpdated.equals(""))
                 urlString += "?last_updated=" + lastUpdated;
             System.out.println("Requesting events from " + urlString);
