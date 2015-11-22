@@ -61,7 +61,8 @@
         android:layout_width="70dp"
         android:typeface="serif"
         android:gravity="center_horizontal|bottom"
-        android:textSize="9dp" />
+        android:textSize="9dp"
+        android:textAllCaps="true"/>
 
 
     <TextView
@@ -75,5 +76,6 @@
         android:layout_width="70dp"
         android:gravity="center_horizontal"
         android:typeface="serif"
-        android:textSize="18dp" />
+        android:textSize="18dp"
+        android:textAllCaps="true"/>
 </GridLayout>
