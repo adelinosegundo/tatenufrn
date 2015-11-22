@@ -34,6 +34,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
 
     public EventAdapter(Context context, int id) {
         super(context, id);
+        this.context = context;
         this.update();
     }
 
@@ -54,24 +55,8 @@ public class EventAdapter extends ArrayAdapter<Event> {
     public View getView(int position, View view, ViewGroup parent) {
         ViewHolder holder = null;
 
-    // static class ViewHolder{
-    //     TextView nameText;
-    //     TextView descriptionText;
-    //     TextView timeTitleText;
-    //     TextView timeText;
-    //     ImageView image;
-    //     EventCountDownTimer countDownTimer;
-    // }
-
-    // public EventAdapter(Context context, int id) {
-    //     super(context, id);
-    //     this.context = context;
-    //     this.update();
-    // }
-
-    // public View getView(int position, View view, ViewGroup parent) {
-    //     ViewHolder holder = null;
         final Event event = getItem(position);
+
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater)
                     getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
