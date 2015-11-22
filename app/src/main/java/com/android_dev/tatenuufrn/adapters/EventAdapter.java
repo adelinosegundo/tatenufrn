@@ -1,6 +1,10 @@
 package com.android_dev.tatenuufrn.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.CountDownTimer;
+import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +13,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android_dev.tatenuufrn.R;
+import com.android_dev.tatenuufrn.activities.EventDetail;
 import com.android_dev.tatenuufrn.domain.Event;
+import com.android_dev.tatenuufrn.domain.Event$Adapter;
+import com.android_dev.tatenuufrn.domain.Event$Table;
 import com.android_dev.tatenuufrn.helpers.EventCountDownTimer;
 import com.raizlabs.android.dbflow.list.FlowQueryList;
+import com.raizlabs.android.dbflow.sql.language.Select;
 
 import java.util.Calendar;
 import java.util.Collections;
@@ -29,11 +37,16 @@ public class EventAdapter extends ArrayAdapter<Event> {
         this.update();
     }
 
+    // private Context context;
     public void update() {
         this.clear();
         events.refresh();
-        List<Event> eventsList = events.getCursorList().getAll();
-        Collections.reverse(eventsList);
+        List<Event> eventsList = new Select()
+                .from(Event.class)
+                .where()
+                .orderBy(false, Event$Table.UPDATEDAT)
+                .queryList();
+//        List<Event> eventsList = events.getCursorList().getAll();
         this.addAll(eventsList);
         this.notifyDataSetChanged();
     }
@@ -41,6 +54,24 @@ public class EventAdapter extends ArrayAdapter<Event> {
     public View getView(int position, View view, ViewGroup parent) {
         ViewHolder holder = null;
 
+    // static class ViewHolder{
+    //     TextView nameText;
+    //     TextView descriptionText;
+    //     TextView timeTitleText;
+    //     TextView timeText;
+    //     ImageView image;
+    //     EventCountDownTimer countDownTimer;
+    // }
+
+    // public EventAdapter(Context context, int id) {
+    //     super(context, id);
+    //     this.context = context;
+    //     this.update();
+    // }
+
+    // public View getView(int position, View view, ViewGroup parent) {
+    //     ViewHolder holder = null;
+    //     final Event event = getItem(position);
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater)
                     getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -54,6 +85,16 @@ public class EventAdapter extends ArrayAdapter<Event> {
             holder.time = (TextView) view.findViewById(R.id.timeEventRowTextView);
 
             view.setTag(holder);
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String event_id = event.getId();
+                    Intent intent = new Intent(context, EventDetail.class);
+                    intent.putExtra("event_id", event_id);
+                    context.startActivity(intent);
+                }
+            });
         } else {
             holder = (ViewHolder) view.getTag();
         }
@@ -64,8 +105,8 @@ public class EventAdapter extends ArrayAdapter<Event> {
             holder.title.setText(event.getTitle());
             holder.image.setImageBitmap(event.getImageBitmap());
 
-//            Calendar nowCalendar = Calendar.getInstance();
-//            nowCalendar.setTimeZone(TimeZone.getTimeZone("GMT"));
+//          Calendar nowCalendar = Calendar.getInstance();
+//          nowCalendar.setTimeZone(TimeZone.getTimeZone("GMT"));
 
             long nowMillis = System.currentTimeMillis();
             nowMillis -= 10800000;
