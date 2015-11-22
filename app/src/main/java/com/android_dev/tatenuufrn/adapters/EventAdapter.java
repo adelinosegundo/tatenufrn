@@ -37,7 +37,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
         this.update();
     }
 
-    // private Context context;
+    private Context context;
     public void update() {
         this.clear();
         events.refresh();
@@ -71,7 +71,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
 
     // public View getView(int position, View view, ViewGroup parent) {
     //     ViewHolder holder = null;
-    //     final Event event = getItem(position);
+        final Event event = getItem(position);
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater)
                     getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -98,8 +98,6 @@ public class EventAdapter extends ArrayAdapter<Event> {
         } else {
             holder = (ViewHolder) view.getTag();
         }
-
-        Event event = getItem(position);
 
         if (event != null) {
             holder.title.setText(event.getTitle());

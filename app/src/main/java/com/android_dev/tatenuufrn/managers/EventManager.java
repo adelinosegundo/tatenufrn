@@ -44,7 +44,7 @@ public class EventManager {
 
     public static JSONArray getUpdatedData(String lastUpdated){
         try {
-            String urlString = "http://tatenufrn-webservice.herokuapp.com/events/retrive_updated.json";
+            String urlString = "http://tatenufrn-webservice.herokuapp.com/api/v1/events";
             if (!lastUpdated.equals(""))
                 urlString += "?last_updated=" + lastUpdated;
             System.out.println("Requesting events from " + urlString);

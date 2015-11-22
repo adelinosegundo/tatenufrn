@@ -44,7 +44,8 @@ public class Login extends Activity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                login();
+                // login(); // LOGIN FROM INSIDE THE UFRN
+                loginFromOutsideUFRN(); // LOGIN FROM OUTSIDE THE UFRN
             }
         });
     }
@@ -53,6 +54,11 @@ public class Login extends Activity {
         Log.d("Result", "reqCode: " + String.valueOf(requestCode) + " resCode: " + String.valueOf(resultCode));
     }
 
+    public void loginFromOutsideUFRN(){
+        final Context context = this;
+        Intent intent = new Intent(context, ListEvents.class);
+        context.startActivity(intent);
+    }
     public void login(){
         OAuthTokenRequest.getInstance().getTokenCredential(this, "http://apitestes.info.ufrn.br/authz-server", "taten-ufrn-id", "tatenufrn", new OAuthManager.OAuthCallback<Credential>() {
             @Override public void run(OAuthManager.OAuthFuture<Credential> future) {
