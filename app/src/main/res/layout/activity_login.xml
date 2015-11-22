@@ -8,7 +8,7 @@
     android:background="#855e9f">
 
     <ImageView
-        android:layout_width="60dp"
+        android:layout_width="match_parent"
         android:layout_height="80dp"
         android:text="tatenufrn"
         android:id="@+id/h1TextView"
@@ -18,51 +18,18 @@
         android:layout_marginTop="120dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/usernameEditText"
         android:textStyle="italic"
         android:src="@drawable/logo2"/>
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/usernameEditText"
-        android:hint="Username"
-        android:layout_below="@+id/h1TextView"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="78dp"
-        android:layout_alignParentStart="true"
-        android:typeface="serif"
-        android:text="Username"
-        android:textColor="#f3f3f3"
-        android:textColorHighlight="#f3f3f3"
-        android:textColorHint="#f3f3f3"
-        android:textColorLink="#f3f3f3" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/passwordEditText"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:layout_below="@+id/usernameEditText"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:typeface="serif"
-        android:fontFamily="serif"
-        android:textColor="#f3f3f3"
-        android:textColorHighlight="#f3f3f3"
-        android:textColorHint="#f3f3f3"
-        android:textColorLink="#f3f3f3"
-        android:textIsSelectable="true" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Login"
+        android:text="SIGAALogin"
         android:id="@+id/loginButton"
-        android:layout_below="@+id/passwordEditText"
+        android:layout_below="@+id/h2TextView"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
