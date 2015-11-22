@@ -19,7 +19,7 @@ import java.net.CookieManager;
 public class APIManager {
     public static APIManager apiManager;
 
-    private final String apiServerUrl = "http://192.168.25.20";
+    private final String apiServerUrl = "http://192.168.25.20:3000";
     private final String apiPath = "/api/v1";
 
     private final String loginPath = "/auth/login";
@@ -40,13 +40,13 @@ public class APIManager {
         return apiManager;
     }
     public void login(Context context, Response.Listener<String> responseListener){
-        String url = apiServerUrl+apiPath+loginPath;
+        String url = apiServerUrl+apiPath+loginPath+"?login=mylogin";
         RequestQueue queue = Volley.newRequestQueue(context);
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, responseListener, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("APIManager", "FailedLogin");
+                Log.e("APIManager", "FailedLogin:"+error.getMessage());
             }
         });
 

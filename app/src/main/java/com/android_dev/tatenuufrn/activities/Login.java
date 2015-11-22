@@ -18,6 +18,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android_dev.tatenuufrn.R;
 import com.android_dev.tatenuufrn.applications.TatenuUFRNApplication;
+import com.android_dev.tatenuufrn.managers.APIManager;
 import com.android_dev.tatenuufrn.vendor.OAuthTokenRequest;
 import com.google.api.client.auth.oauth2.Credential;
 import com.wuman.android.auth.OAuthManager;
@@ -56,9 +57,15 @@ public class Login extends Activity {
 
     public void loginFromOutsideUFRN(){
         final Context context = this;
-        Intent intent = new Intent(context, ListEvents.class);
-        context.startActivity(intent);
+        APIManager.getInstance().login(this, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Intent intent = new Intent(context, ListEvents.class);
+                context.startActivity(intent);
+            }
+        });
     }
+
     public void login(){
         OAuthTokenRequest.getInstance().getTokenCredential(this, "http://apitestes.info.ufrn.br/authz-server", "taten-ufrn-id", "tatenufrn", new OAuthManager.OAuthCallback<Credential>() {
             @Override public void run(OAuthManager.OAuthFuture<Credential> future) {
