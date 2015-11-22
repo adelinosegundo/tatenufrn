@@ -12,7 +12,7 @@
 
     <ImageView
         android:layout_width="105dp"
-        android:layout_height="115dp"
+        android:layout_height="90dp"
         android:id="@+id/imageEventRowImageView"
         android:minHeight="82dp"
         android:minWidth="82dp"
@@ -23,9 +23,10 @@
         android:layout_rowSpan="4"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:background="#FFF"
+        android:background="#333"
         android:cropToPadding="false"
-        android:paddingRight="20dp" />
+        android:paddingRight="20dp"
+        android:scaleType="centerCrop"/>
 
     <TextView
         android:layout_height="45dp"
@@ -45,7 +46,7 @@
         android:textAllCaps="true"
         android:layout_width="0dp"
         android:layout_gravity="fill_horizontal"
-        android:paddingLeft="5dp"
+        android:paddingLeft="10dp"
         android:paddingRight="5dp"
         android:textSize="15dp"
         android:clickable="false"
@@ -53,7 +54,7 @@
 
 
     <TextView
-        android:layout_height="40dp"
+        android:layout_height="25dp"
         android:text="TIME LEFT"
         android:id="@+id/timeTitleEventRowTextView"
         android:layout_row="1"
