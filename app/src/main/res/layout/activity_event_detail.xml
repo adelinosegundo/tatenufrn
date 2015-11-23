@@ -5,48 +5,60 @@
     android:verticalSpacing="2dp"
     android:horizontalSpacing="10dp"
     android:columnCount="2"
-    android:rowCount="4"
+    android:rowCount="6"
     android:orientation="horizontal"
     android:descendantFocusability="blocksDescendants"
     android:layout_height="wrap_content"
     android:background="#000" >
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="200dp"
-        android:id="@+id/eventDetailImageView"
-        android:layout_below="@+id/descriptionEventDetailTextView"
-        android:layout_alignParentStart="true"
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
         android:layout_row="0"
         android:layout_column="0"
-        android:layout_columnSpan="2"
-        android:layout_gravity="fill_horizontal"
-        android:paddingTop="20dp"
-        android:background="#333"
-        android:scaleType="centerCrop" />
+        android:layout_columnSpan="2">
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Title Title Title Title Title Title Title Title Title"
-        android:id="@+id/titleEventDetailTextView"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_row="1"
-        android:layout_column="0"
-        android:layout_columnSpan="2"
-        android:textColor="@color/white"
-        android:typeface="serif"
-        android:textAllCaps="true"
-        android:paddingLeft="10dp"
-        android:paddingTop="10dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="20dp"
-        android:textSize="20dp"
-        android:gravity="center_horizontal"
-        android:textStyle="bold|italic"
-        android:textAlignment="center" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="200dp"
+            android:id="@+id/eventDetailImageView"
+            android:layout_below="@+id/descriptionEventDetailTextView"
+            android:layout_alignParentStart="true"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:layout_columnSpan="2"
+            android:layout_gravity="fill_horizontal"
+            android:paddingTop="20dp"
+            android:background="#333"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title Title Title Title Title Title Title Title Title"
+            android:id="@+id/titleEventDetailTextView"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_row="3"
+            android:layout_column="0"
+            android:layout_columnSpan="2"
+            android:textColor="@color/white"
+            android:typeface="serif"
+            android:textAllCaps="true"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="20dp"
+            android:textSize="20dp"
+            android:gravity="center_horizontal"
+            android:textStyle="bold|italic"
+            android:textAlignment="center" />
+    </FrameLayout>
+
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -55,7 +67,7 @@
         android:id="@+id/descriptionEventDetailTextView"
         android:layout_below="@+id/titleEventDetailTextView"
         android:layout_alignParentStart="true"
-        android:layout_row="2"
+        android:layout_row="4"
         android:layout_column="0"
         android:layout_columnSpan="2"
         android:textColor="@color/white"
@@ -71,7 +83,7 @@
         android:layout_height="200dp"
         android:layout_below="@+id/eventDetailImageView"
         android:layout_toEndOf="@+id/eventDetailImageView"
-        android:layout_row="3"
+        android:layout_row="5"
         android:layout_column="0"
         android:layout_columnSpan="2"></LinearLayout>
 
