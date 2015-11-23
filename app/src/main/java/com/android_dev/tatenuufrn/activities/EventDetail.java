@@ -68,13 +68,15 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
 
         ratingBar = (RatingBar) findViewById(R.id.eventDetailRatingBar);
 
-        setRatingBar();
         titleTextView.setText(event.getTitle());
         descriptionTextView.setText(event.getDescription());
+
+        setRatingBar();
+
        // imageImageView.setImageBitmap(event.getImageBitmap());
     }
 
-    public void setRatingBar(){
+    public void setRatingBar() {
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             public void onRatingChanged(RatingBar ratingBar, float rating,
                                         boolean fromUser) {
