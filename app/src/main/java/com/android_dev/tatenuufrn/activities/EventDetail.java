@@ -2,9 +2,13 @@ package com.android_dev.tatenuufrn.activities;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.location.Location;
+import android.media.Rating;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -39,9 +43,8 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
 
     private TextView titleTextView;
     private TextView descriptionTextView;
-    private ImageView imageImageView;
-    private RatingBar ratingBar;
     private FrameLayout titleLayout;
+    private RatingBar ratingEventRatingBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,32 +61,37 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
         fragmentTransaction.commit();
 
         titleTextView = (TextView) findViewById(R.id.titleEventDetailTextView);
+
         descriptionTextView = (TextView) findViewById(R.id.descriptionEventDetailTextView);
 
         titleLayout = (FrameLayout) findViewById(R.id.titleLayout);
+
+        ratingEventRatingBar = (RatingBar) findViewById(R.id.ratingEventRatingBar);
+
+        LayerDrawable stars = (LayerDrawable) ratingEventRatingBar.getProgressDrawable();
+        stars.getDrawable(0).setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
+        stars.getDrawable(1).setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
+        stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
+
+        titleTextView.setText(event.getTitle());
+
+        descriptionTextView.setText(event.getDescription());
 
         Drawable d = new BitmapDrawable(getResources(), event.getImageBitmap());
 
         titleLayout.setBackground(d);
 
-        ratingBar = (RatingBar) findViewById(R.id.eventDetailRatingBar);
-
-        titleTextView.setText(event.getTitle());
-        descriptionTextView.setText(event.getDescription());
-
         setRatingBar();
-
-       // imageImageView.setImageBitmap(event.getImageBitmap());
     }
 
     public void setRatingBar() {
-        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+        ratingEventRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             public void onRatingChanged(RatingBar ratingBar, float rating,
                                         boolean fromUser) {
                 rateEvent(rating);
             }
         });
-        ratingBar.setVisibility(View.INVISIBLE);
+        ratingEventRatingBar.setVisibility(View.GONE);
         Location eventLocation = new Location("EventLocation");
         eventLocation.setLatitude(event.getLocX());
         eventLocation.setLongitude(event.getLocY());
@@ -94,14 +102,9 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
             Log.i("EventDistance", String.valueOf(distance));
             if (event.getRadiusTrigger().floatValue() > distance) {
                 Log.i("NearEvent", "TRUE");
-                ratingBar.setVisibility(View.VISIBLE);
-                descriptionTextView.setText("ITS HAPPENINGGGASDADSASDASD!@#1");
+                ratingEventRatingBar.setVisibility(View.VISIBLE);
             }
-
         }
-
-
-
     }
 
     public void rateEvent(float rating){
