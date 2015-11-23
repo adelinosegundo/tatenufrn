@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,9 +15,14 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.android.volley.Response;
 import com.android_dev.tatenuufrn.R;
+import com.android_dev.tatenuufrn.applications.TatenuUFRNApplication;
 import com.android_dev.tatenuufrn.domain.Event;
 import com.android_dev.tatenuufrn.domain.Event$Table;
+import com.android_dev.tatenuufrn.managers.APIManager;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -61,9 +68,47 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
 
         ratingBar = (RatingBar) findViewById(R.id.eventDetailRatingBar);
 
+        setRatingBar();
         titleTextView.setText(event.getTitle());
         descriptionTextView.setText(event.getDescription());
        // imageImageView.setImageBitmap(event.getImageBitmap());
+    }
+
+    public void setRatingBar(){
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            public void onRatingChanged(RatingBar ratingBar, float rating,
+                                        boolean fromUser) {
+                rateEvent(rating);
+            }
+        });
+//        ratingBar.setVisibility(View.INVISIBLE);
+        Location eventLocation = new Location("EventLocation");
+        eventLocation.setLatitude(event.getLocX());
+        eventLocation.setLongitude(event.getLocY());
+        Location userLocation = LocationServices.FusedLocationApi
+                .getLastLocation(TatenuUFRNApplication.mGoogleApiClient);
+        if (userLocation != null){
+            float distance = userLocation.distanceTo(eventLocation);
+            Log.i("EventDistance", String.valueOf(distance));
+            if (event.getRadiusTrigger().floatValue() > distance) {
+                Log.i("NearEvent", "TRUE");
+                ratingBar.setVisibility(View.VISIBLE);
+                descriptionTextView.setText("ITS HAPPENINGGGASDADSASDASD!@#1");
+            }
+
+        }
+
+
+
+    }
+
+    public void rateEvent(float rating){
+        APIManager.getInstance().rate(this, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.i("RATED", response);
+            }
+        }, event.getId(), rating);
     }
 
     @Override

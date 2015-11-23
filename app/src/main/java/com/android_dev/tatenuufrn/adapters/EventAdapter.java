@@ -52,7 +52,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
         List<Event> eventsList = new Select()
                 .from(Event.class)
                 .where()
-                .orderBy(false, Event$Table.UPDATEDAT)
+                .orderBy(false, Event$Table.STARTTIME)
                 .queryList();
 //        List<Event> eventsList = events.getCursorList().getAll();
         this.addAll(eventsList);

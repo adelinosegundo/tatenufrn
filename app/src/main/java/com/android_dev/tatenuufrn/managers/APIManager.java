@@ -114,7 +114,7 @@ public class APIManager {
 
         queue.add(stringRequest);
     }
-    public void rate(Context context, Response.Listener<String> responseListener, String eventID, Float rate){
+    public void rate(Context context, Response.Listener<String> responseListener, String eventID, float rate){
         String url = apiServerUrl+apiPath+eventsPath+eventID+ratePath+"?rate="+String.valueOf(rate);
         RequestQueue queue = Volley.newRequestQueue(context);
         // Request a string response from the provided URL.
