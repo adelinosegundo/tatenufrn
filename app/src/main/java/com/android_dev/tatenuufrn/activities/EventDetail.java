@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.android_dev.tatenuufrn.R;
@@ -28,6 +29,7 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
     private TextView titleTextView;
     private TextView descriptionTextView;
     private ImageView imageImageView;
+    private RatingBar ratingBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +49,11 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
         descriptionTextView = (TextView) findViewById(R.id.descriptionEventDetailTextView);
         imageImageView = (ImageView) findViewById(R.id.eventDetailImageView);
 
+        ratingBar = (RatingBar) findViewById(R.id.eventDetailRatingBar);
 
         titleTextView.setText(event.getTitle());
         descriptionTextView.setText(event.getDescription());
         imageImageView.setImageBitmap(event.getImageBitmap());
-
     }
 
     @Override

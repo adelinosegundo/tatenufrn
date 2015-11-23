@@ -5,6 +5,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.util.Base64;
 
+import com.android_dev.tatenuufrn.applications.TatenuUFRNApplication;
+
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URL;
@@ -23,7 +25,7 @@ public class DbBitmapUtility {
 
     public static Bitmap LoadImageFromWebOperations(String url_string) {
         try {
-            URL url = new URL(url_string);
+            URL url = new URL(TatenuUFRNApplication.API_HOST+url_string);
             Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
             Bitmap emptyBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), bitmap.getConfig());
             if (bitmap.sameAs(emptyBitmap)) {

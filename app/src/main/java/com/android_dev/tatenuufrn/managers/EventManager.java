@@ -2,6 +2,7 @@ package com.android_dev.tatenuufrn.managers;
 
 import com.android_dev.tatenuufrn.activities.ListEvents;
 import com.android_dev.tatenuufrn.adapters.EventAdapter;
+import com.android_dev.tatenuufrn.applications.TatenuUFRNApplication;
 import com.android_dev.tatenuufrn.domain.Event;
 import com.raizlabs.android.dbflow.structure.container.JSONModel;
 
@@ -21,7 +22,7 @@ import java.util.concurrent.Callable;
  */
 public class EventManager {
 //    private static final String HOST = "http://tatenufrn-webservice.herokuapp.com/api/v1";
-    private static final String HOST = "http://192.168.25.20:3000/api/v1";
+    private static final String HOST = TatenuUFRNApplication.API_HOST+"/api/v1";
 
     public static void refreshEvents(String lastUpdated){
         JSONArray arr = EventManager.getUpdatedData(lastUpdated);

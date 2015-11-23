@@ -12,7 +12,7 @@ import com.raizlabs.android.dbflow.config.FlowManager;
  */
 public class TatenuUFRNApplication extends Application {
     public static String SHARED_PREFERENCES_NAME = "TatenUFRN";
-
+    public static final String API_HOST = "http://192.168.0.6:3000";
 
     @Override
     public void onCreate() {
