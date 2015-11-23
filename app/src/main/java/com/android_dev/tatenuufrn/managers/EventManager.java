@@ -21,7 +21,7 @@ import java.util.concurrent.Callable;
  */
 public class EventManager {
 //    private static final String HOST = "http://tatenufrn-webservice.herokuapp.com/api/v1";
-    private static final String HOST = "http://192.168.25.2:3000/api/v1";
+    private static final String HOST = "http://192.168.25.20:3000/api/v1";
 
     public static void refreshEvents(String lastUpdated){
         JSONArray arr = EventManager.getUpdatedData(lastUpdated);
