@@ -1,5 +1,12 @@
 <!-- res/values/styles.xml -->
 <resources>
+
+    <style name="ratingStarBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/rating_star</item>
+        <item name="android:minHeight">25dip</item>
+        <item name="android:maxHeight">25dip</item>
+    </style>
+
     <!-- your theme inherits from the material theme -->
     <style name="AppTheme" parent="android:Theme.Material.Light">
         <!-- Main theme colors -->

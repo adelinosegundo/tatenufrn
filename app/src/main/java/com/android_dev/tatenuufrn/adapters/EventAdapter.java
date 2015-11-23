@@ -2,6 +2,9 @@ package com.android_dev.tatenuufrn.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.LayerDrawable;
 import android.os.CountDownTimer;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -10,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.android_dev.tatenuufrn.R;
@@ -21,10 +25,13 @@ import com.android_dev.tatenuufrn.helpers.EventCountDownTimer;
 import com.raizlabs.android.dbflow.list.FlowQueryList;
 import com.raizlabs.android.dbflow.sql.language.Select;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by adelinosegundo on 10/8/15.
@@ -66,8 +73,13 @@ public class EventAdapter extends ArrayAdapter<Event> {
 
             holder.title = (TextView) view.findViewById(R.id.titleEventRowTextView);
             holder.image = (ImageView) view.findViewById(R.id.imageEventRowImageView);
+            holder.rating = (RatingBar) view.findViewById(R.id.ratingEventRatingBar);
             holder.timeTitle = (TextView) view.findViewById(R.id.timeTitleEventRowTextView);
             holder.time = (TextView) view.findViewById(R.id.timeEventRowTextView);
+
+            // Set Rating Stars Color
+            LayerDrawable stars = (LayerDrawable) holder.rating.getProgressDrawable();
+            stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
 
             view.setTag(holder);
 
@@ -87,6 +99,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
         if (event != null) {
             holder.title.setText(event.getTitle());
             holder.image.setImageBitmap(event.getImageBitmap());
+            holder.rating.setRating(3);
 
 //          Calendar nowCalendar = Calendar.getInstance();
 //          nowCalendar.setTimeZone(TimeZone.getTimeZone("GMT"));
@@ -100,10 +113,18 @@ public class EventAdapter extends ArrayAdapter<Event> {
             long timeToEventMillis = startTimeMillis - nowMillis;
             long timeLeftOfEventMillis = endTimeMillis - nowMillis;
 
+            long daysToEvent = TimeUnit.MILLISECONDS.toDays(timeToEventMillis);
+
+            Date startDate = new Date(startTimeMillis);
+            String startDateString = new SimpleDateFormat("dd/MM").format(startDate);
+
             if (holder.countDownTimer != null)
                 holder.countDownTimer.cancel();
 
-            if (timeToEventMillis > 0) {
+            if (daysToEvent > 0) {
+                holder.timeTitle.setText("DATE");
+                holder.time.setText(startDateString);
+            } else if (timeToEventMillis > 0) {
                 holder.timeTitle.setText("TIME TO EVENT");
                 holder.countDownTimer = new EventCountDownTimer(holder.time, timeToEventMillis, 1000, "Started");
                 holder.countDownTimer.start();
@@ -124,6 +145,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
         TextView timeTitle;
         TextView time;
         ImageView image;
+        RatingBar rating;
         EventCountDownTimer countDownTimer;
     }
 }

@@ -9,7 +9,7 @@
     android:orientation="horizontal"
     android:descendantFocusability="blocksDescendants"
     android:layout_height="wrap_content"
-    android:background="#e81d4e" >
+    android:background="#000" >
 
     <ImageView
         android:layout_width="wrap_content"
@@ -22,8 +22,8 @@
         android:layout_columnSpan="2"
         android:layout_gravity="fill_horizontal"
         android:paddingTop="20dp"
-        android:background="#fff"
-        />
+        android:background="#333"
+        android:scaleType="centerCrop" />
 
 
     <TextView

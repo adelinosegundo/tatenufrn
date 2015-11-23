@@ -19,16 +19,23 @@ public class EventCountDownTimer extends CountDownTimer {
     }
 
     private static String millisToCountDownTimeString(long millis) {
-        long days = TimeUnit.MILLISECONDS.toDays(millis);
+        int days = (int) TimeUnit.MILLISECONDS.toDays(millis);
         millis -= TimeUnit.DAYS.toMillis(days);
-        long hours = TimeUnit.MILLISECONDS.toHours(millis);
+        int hours = (int) TimeUnit.MILLISECONDS.toHours(millis);
         millis -= TimeUnit.HOURS.toMillis(hours);
-        long minutes = TimeUnit.MILLISECONDS.toMinutes(millis);
+        int minutes = (int) TimeUnit.MILLISECONDS.toMinutes(millis);
         millis -= TimeUnit.MINUTES.toMillis(minutes);
-        long seconds = TimeUnit.MILLISECONDS.toSeconds(millis);
+        int seconds = (int) TimeUnit.MILLISECONDS.toSeconds(millis);
+
+        String hoursString = String.format("%02d", hours);
+        String minutesString = String.format("%02d", minutes);
+        String secondsString = String.format("%02d", seconds);
+
+
+//        String countDownTimeString = (days > 0) ? days + "D " + hours + ":" + minutes + ":" + seconds : hours + ":" + minutes + ":" + seconds;
 
         String countDownTimeString = (days > 0) ?
-                days + "D " + hours + ":" + minutes + ":" + seconds : hours + ":" + minutes + ":" + seconds;
+                days + "D " + hoursString + ":" + minutesString + ":" + secondsString : hoursString + ":" + minutesString;
 
         return countDownTimeString;
     }

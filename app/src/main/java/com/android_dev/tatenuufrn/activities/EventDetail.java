@@ -61,6 +61,7 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
             map.addMarker(new MarkerOptions()
                     .position(eventLocation)
                     .title(event.getTitle()));
+            map.getUiSettings().setScrollGesturesEnabled(false);
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(eventLocation, 17));
         }
     }
