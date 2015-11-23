@@ -2,10 +2,15 @@ package com.android_dev.tatenuufrn.activities;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.android_dev.tatenuufrn.R;
@@ -28,6 +33,8 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
     private TextView titleTextView;
     private TextView descriptionTextView;
     private ImageView imageImageView;
+    private RatingBar ratingBar;
+    private FrameLayout titleLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,13 +52,18 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
 
         titleTextView = (TextView) findViewById(R.id.titleEventDetailTextView);
         descriptionTextView = (TextView) findViewById(R.id.descriptionEventDetailTextView);
-        imageImageView = (ImageView) findViewById(R.id.eventDetailImageView);
 
+        titleLayout = (FrameLayout) findViewById(R.id.titleLayout);
+
+        Drawable d = new BitmapDrawable(getResources(), event.getImageBitmap());
+
+        titleLayout.setBackground(d);
+
+        ratingBar = (RatingBar) findViewById(R.id.eventDetailRatingBar);
 
         titleTextView.setText(event.getTitle());
         descriptionTextView.setText(event.getDescription());
-        imageImageView.setImageBitmap(event.getImageBitmap());
-
+       // imageImageView.setImageBitmap(event.getImageBitmap());
     }
 
     @Override

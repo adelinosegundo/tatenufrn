@@ -25,8 +25,8 @@
         android:layout_alignParentStart="true"
         android:background="#333"
         android:cropToPadding="false"
-        android:scaleType="centerCrop"/>
-
+        />
+    android:scaleType="centerCrop"
     <TextView
         android:layout_height="50dp"
         android:text="A STUNNING TITLE WITH TWO ROWS MAXIMUM"
@@ -53,7 +53,7 @@
 
     <ImageView
         android:layout_width="20dp"
-        android:layout_height="wrap_content"
+        android:layout_height="20dp"
         android:id="@+id/ratingEventImageView"
         android:layout_row="2"
         android:layout_column="1"
@@ -62,7 +62,9 @@
         android:maxHeight="20dp"
         android:maxWidth="20dp"
         android:minHeight="20dp"
-        android:minWidth="20dp" />
+        android:minWidth="20dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/icon_heart" />
 
     <RatingBar
         android:id="@+id/ratingEventRatingBar"
@@ -79,16 +81,17 @@
 
     <ImageView
         android:layout_width="20dp"
-        android:layout_height="wrap_content"
+        android:layout_height="20dp"
         android:id="@+id/ratingEventImageView2"
         android:layout_row="3"
         android:layout_column="1"
         android:layout_marginLeft="10dp"
-        android:background="#ff0000"
         android:maxHeight="20dp"
         android:maxWidth="20dp"
         android:minHeight="20dp"
-        android:minWidth="20dp" />
+        android:minWidth="20dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/icon_people"/>
 
     <RatingBar
         android:id="@+id/ratingEventRatingBar2"

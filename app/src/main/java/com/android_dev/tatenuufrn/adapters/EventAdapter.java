@@ -99,7 +99,6 @@ public class EventAdapter extends ArrayAdapter<Event> {
         if (event != null) {
             holder.title.setText(event.getTitle());
             holder.image.setImageBitmap(event.getImageBitmap());
-            holder.rating.setRating(3);
 
 //          Calendar nowCalendar = Calendar.getInstance();
 //          nowCalendar.setTimeZone(TimeZone.getTimeZone("GMT"));

@@ -137,7 +137,7 @@ public class Event extends BaseModel implements Parcelable {
     }
 
     public void updateImageString(){
-        System.out.println(this.imageUrl);
+        Log.d("ImageURL", this.imageUrl);
         this.setImageBitmap(DbBitmapUtility.LoadImageFromWebOperations(imageUrl));
     }
 

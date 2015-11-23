@@ -20,8 +20,7 @@ import java.net.CookieManager;
  */
 public class APIManager {
     public static APIManager apiManager;
-
-    private final String apiServerUrl = "http://192.168.0.5:3000";
+    private final String apiServerUrl = TatenuUFRNApplication.API_HOST;
     private final String apiPath = "/api/v1";
 
     private final String loginPath = "/auth/login";
