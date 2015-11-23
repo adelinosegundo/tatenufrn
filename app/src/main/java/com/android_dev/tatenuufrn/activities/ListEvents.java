@@ -128,7 +128,6 @@ public class ListEvents extends Activity {
                     result.add(event);
                     publishProgress(i, arr.length());
                 }
-                System.out.println("Events saved");
             }
             catch(Throwable t) {
                 t.printStackTrace();
