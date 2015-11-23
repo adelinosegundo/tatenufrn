@@ -29,6 +29,8 @@ public class APIManager {
     private final String tellIAmGoingPath = "/tell_i_am_going";
     private final String joinPath = "/join";
     private final String ratePath = "/rate";
+    private final String likePath = "/like";
+    private final String dislikePath = "/dislike";
 
     private CookieManager cookieManage;
     private APIManager(){
@@ -116,6 +118,32 @@ public class APIManager {
     }
     public void rate(Context context, Response.Listener<String> responseListener, String eventID, float rate){
         String url = apiServerUrl+apiPath+eventsPath+"/"+eventID+ratePath+"?rate="+String.valueOf(rate);
+        RequestQueue queue = Volley.newRequestQueue(context);
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, responseListener, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("APIManager", "FailedLogin");
+            }
+        });
+
+        queue.add(stringRequest);
+    }
+    public void like(Context context, Response.Listener<String> responseListener, String eventID){
+        String url = apiServerUrl+apiPath+eventsPath+"/"+eventID+likePath;
+        RequestQueue queue = Volley.newRequestQueue(context);
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, responseListener, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("APIManager", "FailedLogin");
+            }
+        });
+
+        queue.add(stringRequest);
+    }
+    public void dislike(Context context, Response.Listener<String> responseListener, String eventID){
+        String url = apiServerUrl+apiPath+eventsPath+"/"+eventID+dislikePath;
         RequestQueue queue = Volley.newRequestQueue(context);
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, responseListener, new Response.ErrorListener() {
