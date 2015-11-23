@@ -1,10 +1,13 @@
 package com.android_dev.tatenuufrn.helpers;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.util.Base64;
 
+import com.android_dev.tatenuufrn.R;
 import com.android_dev.tatenuufrn.applications.TatenuUFRNApplication;
 
 import java.io.ByteArrayOutputStream;
@@ -34,6 +37,7 @@ public class DbBitmapUtility {
             return bitmap;
         } catch (Exception e) {
             e.printStackTrace();
+
             return null;
         }
     }

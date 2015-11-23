@@ -12,12 +12,10 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.raizlabs.android.dbflow.config.FlowManager;
 
-/**
- * Created by adelinosegundo on 10/13/15.
- */
 public class TatenuUFRNApplication extends Application implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     public static String SHARED_PREFERENCES_NAME = "TatenUFRN";
-    public static final String API_HOST = "http://192.168.43.147:3000";
+    public static final String API_HOST = "http://tatenufrn-webservice.herokuapp.com";
+//    public static final String API_HOST = "http://192.168.43.147:3000";
     public static GoogleApiClient mGoogleApiClient;
 
     @Override

@@ -5,7 +5,7 @@
     android:verticalSpacing="2dp"
     android:horizontalSpacing="10dp"
     android:columnCount="2"
-    android:rowCount="6"
+    android:rowCount="12"
     android:orientation="horizontal"
     android:descendantFocusability="blocksDescendants"
     android:layout_height="wrap_content"
@@ -23,13 +23,12 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Title Title Title Title Title Title Title Title Title"
+            android:text="TITLE"
             android:id="@+id/titleEventDetailTextView"
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
             android:layout_row="3"
             android:layout_column="0"
-            android:layout_columnSpan="2"
             android:textColor="@color/white"
             android:typeface="serif"
             android:textAllCaps="true"
@@ -44,10 +43,13 @@
             android:layout_gravity="center" />
 
         <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:id="@+id/imageButton"
-            android:layout_gravity="right|bottom" />
+            android:layout_gravity="right|bottom"
+            android:layout_margin="10dp"
+            android:src="@drawable/i_heart_w40" />
+
     </FrameLayout>
 
     <RatingBar
@@ -63,21 +65,68 @@
         android:layout_gravity="bottom|left"
         android:fillViewport="true"
         android:layout_marginTop="5dp"
-        android:layout_columnSpan="2" />
+        android:layout_columnSpan="2"/>
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:id="@+id/imageView"
+        android:layout_row="7"
+        android:layout_column="0"
+        android:src="@drawable/i_calendar_w40"
+        android:maxHeight="10dp"
+        android:maxWidth="10dp"
+        android:minHeight="10dp"
+        android:minWidth="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_gravity="center" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Description Description Description Description Description Description"
-        android:id="@+id/descriptionEventDetailTextView"
-        android:layout_below="@+id/titleEventDetailTextView"
-        android:layout_alignParentStart="true"
-        android:layout_row="4"
+        android:layout_width="fill_parent"
+        android:layout_height="25dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Berghain / Panorama Bar (OFFICIAL)"
+        android:id="@+id/addressEventDetailTextView"
+        android:layout_row="7"
+        android:layout_column="1"
+        android:textColor="@color/white"
+        android:paddingRight="10dp"
+        android:typeface="serif"
+        android:layout_gravity="fill"
+        android:gravity="center_vertical|left"
+        android:paddingLeft="5dp" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="25dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="DESCRIPTION"
+        android:id="@+id/descriptionTitleEventDetailTextView"
+        android:layout_row="8"
         android:layout_column="0"
         android:layout_columnSpan="2"
         android:textColor="@color/white"
-        android:padding="10dp"
-        android:gravity="center" />
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="5dp"
+        android:typeface="serif"
+        android:layout_gravity="fill|left" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam cursus posuere feugiat. Nulla sagittis consequat nunc elementum semper."
+        android:id="@+id/descriptionEventDetailTextView"
+        android:layout_row="9"
+        android:layout_column="0"
+        android:layout_columnSpan="2"
+        android:textColor="@color/white"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="5dp"
+        android:typeface="sans"
+        android:layout_gravity="fill|left" />
 
 
     <LinearLayout
@@ -87,7 +136,7 @@
         android:layout_height="200dp"
         android:layout_below="@+id/eventDetailImageView"
         android:layout_toEndOf="@+id/eventDetailImageView"
-        android:layout_row="5"
+        android:layout_row="10"
         android:layout_column="0"
         android:layout_columnSpan="2"></LinearLayout>
 

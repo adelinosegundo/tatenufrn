@@ -1,5 +1,6 @@
 package com.android_dev.tatenuufrn.domain;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;

@@ -1,5 +1,7 @@
 package com.android_dev.tatenuufrn.managers;
 
+import com.android_dev.tatenuufrn.activities.ListEvents;
+import com.android_dev.tatenuufrn.adapters.EventAdapter;
 import com.android_dev.tatenuufrn.applications.TatenuUFRNApplication;
 import com.android_dev.tatenuufrn.domain.Event;
 import com.raizlabs.android.dbflow.structure.container.JSONModel;

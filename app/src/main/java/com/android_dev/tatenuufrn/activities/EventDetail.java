@@ -49,7 +49,7 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         setContentView(R.layout.activity_event_detail);
         String event_id = getIntent().getExtras().getString("event_id");
         events = new FlowCursorList<>(true, Event.class, Condition.column(Event$Table.ID).like((event_id)));
