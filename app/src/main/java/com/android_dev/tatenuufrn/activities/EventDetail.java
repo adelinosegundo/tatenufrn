@@ -81,7 +81,7 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
                 rateEvent(rating);
             }
         });
-//        ratingBar.setVisibility(View.INVISIBLE);
+        ratingBar.setVisibility(View.INVISIBLE);
         Location eventLocation = new Location("EventLocation");
         eventLocation.setLatitude(event.getLocX());
         eventLocation.setLongitude(event.getLocY());
