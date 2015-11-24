@@ -45,6 +45,7 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
     private TextView descriptionTextView;
     private FrameLayout titleLayout;
     private RatingBar ratingEventRatingBar;
+    private ImageView likeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +83,24 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
 
         titleLayout.setBackground(d);
 
+        likeButton = (ImageView) findViewById(R.id.eventDetailLikeButton);
+        likeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                likeEvent();
+            }
+        });
+
         setRatingBar();
+    }
+
+    public void likeEvent(){
+        APIManager.getInstance().like(this, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("LIKE", response);
+            }
+        }, event.getId());
     }
 
     public void setRatingBar() {

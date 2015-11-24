@@ -49,7 +49,6 @@
             android:layout_gravity="right|bottom"
             android:layout_margin="10dp"
             android:src="@drawable/i_heart_w40" />
-
     </FrameLayout>
 
     <RatingBar
