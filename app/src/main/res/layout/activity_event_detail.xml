@@ -42,13 +42,24 @@
             android:textAlignment="center"
             android:layout_gravity="center" />
 
+        <Button
+            android:layout_width="309dp"
+            android:layout_height="60dp"
+            android:drawableLeft="@drawable/i_plus_w40"
+            android:textColor="#FFFFFF"
+            android:id="@+id/eventDetailJoinButton"
+            android:text="Join"
+            android:layout_margin="10dp"
+            android:layout_gravity="left|bottom"></Button>
+
         <ImageButton
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:id="@+id/imageButton"
+            android:id="@+id/eventDetailLikeButton"
             android:layout_gravity="right|bottom"
             android:layout_margin="10dp"
-            android:src="@drawable/i_heart_w40" />
+            android:src="@drawable/i_heart_g40" />
+
     </FrameLayout>
 
     <RatingBar
