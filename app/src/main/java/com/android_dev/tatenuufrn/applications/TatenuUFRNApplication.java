@@ -17,7 +17,7 @@ import com.raizlabs.android.dbflow.config.FlowManager;
  */
 public class TatenuUFRNApplication extends Application implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     public static String SHARED_PREFERENCES_NAME = "TatenUFRN";
-    public static final String API_HOST = "http://192.168.0.5:3000";
+    public static final String API_HOST = "http://192.168.25.20:3000";
     public static GoogleApiClient mGoogleApiClient;
 
     @Override
