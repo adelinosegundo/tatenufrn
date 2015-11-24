@@ -16,7 +16,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
@@ -50,7 +52,9 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
     private TextView descriptionTextView;
     private FrameLayout titleLayout;
     private RatingBar ratingEventRatingBar;
-    private ImageView likeButton;
+    private ImageButton likeButton;
+
+    private Button joinButton;
 
     private Dialog ratingDialog;
 
@@ -87,11 +91,19 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
 
         titleLayout.setBackground(d);
 
-        likeButton = (ImageView) findViewById(R.id.eventDetailLikeButton);
+        likeButton = (ImageButton) findViewById(R.id.eventDetailLikeButton);
         likeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 likeEvent();
+            }
+        });
+
+        joinButton = (Button) findViewById(R.id.eventDetailJoinButton);
+        joinButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                joinEvent();
             }
         });
 
@@ -122,6 +134,17 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
             @Override
             public void onResponse(String response) {
                 Log.d("LIKE", response);
+                likeButton.setBackgroundResource(R.drawable.i_heart_g40);
+            }
+        }, event.getId());
+    }
+
+    public void joinEvent(){
+        APIManager.getInstance().join(this, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("JOIN", response);
+                joinButton.setText("JOINED");
             }
         }, event.getId());
     }

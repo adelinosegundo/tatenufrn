@@ -104,7 +104,7 @@ public class APIManager {
         queue.add(stringRequest);
     }
     public void join(Context context, Response.Listener<String> responseListener, String eventID){
-        String url = apiServerUrl+apiPath+eventsPath+eventID+joinPath;
+        String url = apiServerUrl+apiPath+eventsPath+"/"+eventID+joinPath;
         RequestQueue queue = Volley.newRequestQueue(context);
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, responseListener, new Response.ErrorListener() {
