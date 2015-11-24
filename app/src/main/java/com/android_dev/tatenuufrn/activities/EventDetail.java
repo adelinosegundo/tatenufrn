@@ -1,6 +1,8 @@
 package com.android_dev.tatenuufrn.activities;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -17,6 +19,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -36,6 +39,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.raizlabs.android.dbflow.list.FlowCursorList;
 import com.raizlabs.android.dbflow.sql.builder.Condition;
 
+import java.util.jar.Attributes;
+
 public class EventDetail extends Activity implements OnMapReadyCallback {
     private FlowCursorList<Event> events;
     private Event event;
@@ -46,6 +51,8 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
     private FrameLayout titleLayout;
     private RatingBar ratingEventRatingBar;
     private ImageView likeButton;
+
+    private Dialog ratingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,10 +77,7 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
 
         ratingEventRatingBar = (RatingBar) findViewById(R.id.ratingEventRatingBar);
 
-        LayerDrawable stars = (LayerDrawable) ratingEventRatingBar.getProgressDrawable();
-        stars.getDrawable(0).setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
-        stars.getDrawable(1).setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
-        stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
+
 
         titleTextView.setText(event.getTitle());
 
@@ -91,6 +95,25 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
             }
         });
 
+
+        ratingEventRatingBar = new RatingBar(this);
+        LayerDrawable stars = (LayerDrawable) ratingEventRatingBar.getProgressDrawable();
+        stars.getDrawable(0).setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
+        stars.getDrawable(1).setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
+        stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
+
+
+        ratingEventRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            public void onRatingChanged(RatingBar ratingBar, float rating,
+                                        boolean fromUser) {
+                rateEvent(rating);
+            }
+        });
+
+        ratingDialog = new Dialog(this);
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
+        ratingDialog.addContentView(ratingEventRatingBar, layoutParams);
+
         setRatingBar();
     }
 
@@ -104,13 +127,6 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
     }
 
     public void setRatingBar() {
-        ratingEventRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            public void onRatingChanged(RatingBar ratingBar, float rating,
-                                        boolean fromUser) {
-                rateEvent(rating);
-            }
-        });
-        ratingEventRatingBar.setVisibility(View.GONE);
         Location eventLocation = new Location("EventLocation");
         eventLocation.setLatitude(event.getLocX());
         eventLocation.setLongitude(event.getLocY());
@@ -119,9 +135,9 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
         if (userLocation != null){
             float distance = userLocation.distanceTo(eventLocation);
             Log.i("EventDistance", String.valueOf(distance));
-            if (event.getRadiusTrigger().floatValue() > distance) {
+            if (event.getRadiusTrigger().floatValue() < distance) {
                 Log.i("NearEvent", "TRUE");
-                ratingEventRatingBar.setVisibility(View.VISIBLE);
+                ratingDialog.show();
             }
         }
     }
@@ -131,6 +147,7 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
             @Override
             public void onResponse(String response) {
                 Log.i("RATED", response);
+                ratingDialog.dismiss();
             }
         }, event.getId(), rating);
     }
