@@ -10,7 +10,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.location.Location;
-import android.media.Rating;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -19,7 +18,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -32,7 +30,6 @@ import com.android_dev.tatenuufrn.domain.Event$Table;
 import com.android_dev.tatenuufrn.domain.EventUser;
 import com.android_dev.tatenuufrn.domain.EventUser$Table;
 import com.android_dev.tatenuufrn.managers.APIManager;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -49,7 +46,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
-import java.util.jar.Attributes;
 
 public class EventDetail extends Activity implements OnMapReadyCallback {
     private FlowCursorList<Event> events;
@@ -92,7 +88,7 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
 
 
         initializeUI();
-        initializeActions();
+        initializeDefaultActions();
 
         if (eventUser != null){
             if (eventUser.getLiked()) setLikedButton();
@@ -137,7 +133,7 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
     }
 
 
-    public void initializeActions(){
+    public void initializeDefaultActions(){
         ratingEventRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 rateEvent(rating);
@@ -184,10 +180,6 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
         }, event.getId());
     }
 
-    public void setLikedButton(){
-        likeButton.setBackgroundResource(R.drawable.i_heart_g40);
-    }
-
     public void joinEvent(){
         APIManager.getInstance().join(this, new Response.Listener<String>() {
             @Override
@@ -197,6 +189,21 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
                 setJoinedButton();
             }
         }, event.getId());
+    }
+
+    public void rateEvent(float rating){
+        APIManager.getInstance().rate(this, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.i("RATED", response);
+                updateEventUser(response);
+                ratingDialog.dismiss();
+            }
+        }, event.getId(), rating);
+    }
+
+    public void setLikedButton(){
+        likeButton.setBackgroundResource(R.drawable.i_heart_g40);
     }
 
     public void setJoinedButton(){
@@ -217,16 +224,6 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
                 ratingDialog.show();
             }
         }
-    }
-
-    public void rateEvent(float rating){
-        APIManager.getInstance().rate(this, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.i("RATED", response);
-                ratingDialog.dismiss();
-            }
-        }, event.getId(), rating);
     }
 
     @Override
