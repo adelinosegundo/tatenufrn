@@ -12,7 +12,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.location.Location;
-import android.media.Rating;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,7 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -31,8 +30,9 @@ import com.android_dev.tatenuufrn.R;
 import com.android_dev.tatenuufrn.applications.TatenuUFRNApplication;
 import com.android_dev.tatenuufrn.domain.Event;
 import com.android_dev.tatenuufrn.domain.Event$Table;
+import com.android_dev.tatenuufrn.domain.EventUser;
+import com.android_dev.tatenuufrn.domain.EventUser$Table;
 import com.android_dev.tatenuufrn.managers.APIManager;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -42,18 +42,27 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.raizlabs.android.dbflow.list.FlowCursorList;
 import com.raizlabs.android.dbflow.sql.builder.Condition;
+import com.raizlabs.android.dbflow.sql.language.Select;
+import com.raizlabs.android.dbflow.structure.container.JSONModel;
 
-import java.util.jar.Attributes;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.List;
 
 public class EventDetail extends Activity implements OnMapReadyCallback {
     private LayoutInflater inflater;
     private FlowCursorList<Event> events;
     private Event event;
+
+    private List<EventUser> eventUsers;
+    private EventUser eventUser;
+
     private MapFragment eventLocationMap;
 
     private Dialog ratingDialog;
 
-    private ImageView likeButton;
+    private ImageButton likeButton;
     private Button joinButton;
 
     private FrameLayout titleLayout;
@@ -72,13 +81,39 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         setContentView(R.layout.activity_event_detail);
+
+        //Recover Event
         String event_id = getIntent().getExtras().getString("event_id");
         events = new FlowCursorList<>(true, Event.class, Condition.column(Event$Table.ID).like((event_id)));
         event = events.getItem(0);
 
+        //Recover EventUser
+        eventUsers = new Select().from(EventUser.class).where(
+                Condition.column(EventUser$Table.USERID).eq(APIManager.getInstance().getAuthenticatedUserId()),
+                Condition.column(EventUser$Table.EVENTID).eq(event_id)
+        ).queryList();
+        if (!eventUsers.isEmpty()) {
+            eventUser = eventUsers.get(0);
+            Log.d("EventDetalEventUser", eventUser.toString());
+        }
+
+        initializeUI();
+        initializeDefaultActions();
+
+        if (eventUser != null){
+            if (eventUser.getLiked()) setLikedButton();
+            if (eventUser.getLiked()) setJoinedButton();
+            if (eventUser.getRate() == null) engineRatingDialog();
+        } else {
+            engineRatingDialog();
+        }
+    }
+
+    public void initializeUI() {
         eventLocationMap = MapFragment.newInstance();
         eventLocationMap.getMapAsync(this);
         FragmentTransaction fragmentTransaction =
@@ -92,13 +127,10 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
         titleLayout.setBackground(d);
 
         // LIKE BUTTON
-        likeButton = (ImageView) findViewById(R.id.eventDetailLikeButton);
-        likeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                likeEvent();
-            }
-        });
+        likeButton = (ImageButton) findViewById(R.id.eventDetailLikeButton);
+
+        // LIKE BUTTON
+        joinButton = (Button) findViewById(R.id.eventDetailJoinButton);
 
         // TITLE
         titleTextView = (TextView) findViewById(R.id.eventDetailTitleTextView);
@@ -118,6 +150,36 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
 
         // RATING DIALOG
         engineRatingDialog();
+    }
+
+    public void initializeDefaultActions(){
+        likeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                likeEvent();
+            }
+        });
+
+
+        joinButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                joinEvent();
+            }
+        });
+
+        ratingDialogViewRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            public void onRatingChanged(RatingBar ratingBar, float rating,
+                                        boolean fromUser) {
+                rateEvent(rating);
+            }
+        });
+
+        ratingDialogViewDismissButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ratingDialog.dismiss();
+            }
+        });
     }
 
     public void engineRatingDialog() {
@@ -143,35 +205,25 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
 
                 ratingDialogViewDismissButton = (Button) ratingDialogView.findViewById(R.id.ratingDialogDismissButton);
 
-                ratingDialogViewRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-                    public void onRatingChanged(RatingBar ratingBar, float rating,
-                                                boolean fromUser) {
-                        rateEvent(rating);
-                    }
-                });
-
                 // RATING DIALOG
                 ratingDialog = new Dialog(this);
                 ratingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
                 ratingDialog.setContentView(ratingDialogView);
-
-                ratingDialogViewDismissButton.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        ratingDialog.dismiss();
-                    }
-                });
             }
         }
     }
 
-    public void rateEvent(float rating){
-        APIManager.getInstance().rate(this, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.i("RATED", response);
-                ratingDialog.dismiss();
-            }
-        }, event.getId(), rating);
+    public void updateEventUser(String eventUserJsonString){
+        JSONModel<EventUser> jsonModel = null;
+        try {
+            jsonModel = new JSONModel<>(new JSONObject(eventUserJsonString), EventUser.class);
+            eventUser = jsonModel.toModel();
+            Log.d("eventUserJson", eventUserJsonString);
+            Log.d("eventUserModel", eventUser.toString());
+            eventUser.save();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public void likeEvent(){
@@ -179,13 +231,42 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
             @Override
             public void onResponse(String response) {
                 Log.d("LIKE", response);
+                updateEventUser(response);
+                setLikedButton();
             }
         }, event.getId());
     }
 
+    public void joinEvent(){
+        APIManager.getInstance().join(this, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("JOIN", response);
+                updateEventUser(response);
+                setJoinedButton();
+            }
+        }, event.getId());
+    }
 
+    public void rateEvent(float rating){
+        APIManager.getInstance().rate(this, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.i("RATED", response);
+                updateEventUser(response);
+                ratingDialog.dismiss();
+            }
+        }, event.getId(), rating);
+    }
 
+    public void setLikedButton(){
+        likeButton.setImageResource(R.drawable.i_heart_g40);
+    }
 
+    public void setJoinedButton(){
+        joinButton.setText("JOINED");
+    }
+    
     @Override
     public void onMapReady(GoogleMap map) {
         if (event.hasLocation()) {

@@ -1,7 +1,7 @@
 package com.android_dev.tatenuufrn.managers;
 
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.util.Log;
 
 import com.android.volley.Request;
@@ -11,6 +11,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.android_dev.tatenuufrn.applications.TatenuUFRNApplication;
+import com.android_dev.tatenuufrn.domain.User;
+import com.raizlabs.android.dbflow.structure.container.JSONModel;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.CookieHandler;
 import java.net.CookieManager;
@@ -19,7 +24,7 @@ import java.net.CookieManager;
  * Created by adelinosegundo on 11/22/15.
  */
 public class APIManager {
-    public static APIManager apiManager;
+    private static APIManager apiManager;
     private final String apiServerUrl = TatenuUFRNApplication.API_HOST;
     private final String apiPath = "/api/v1";
 
@@ -31,8 +36,11 @@ public class APIManager {
     private final String ratePath = "/rate";
     private final String likePath = "/like";
     private final String dislikePath = "/dislike";
+    private final String eventUsersPath = "/event_users";
 
+    private User user;
     private CookieManager cookieManage;
+
     private APIManager(){
         cookieManage = new CookieManager();
         CookieHandler.setDefault(cookieManage);
@@ -42,14 +50,32 @@ public class APIManager {
             apiManager = new APIManager();
         return apiManager;
     }
-    public void login(Context context, Response.Listener<String> responseListener){
-        String url = apiServerUrl+apiPath+loginPath+"?login=mylogin";
+
+    public String getAuthenticatedUserId(){
+        return user.getId();
+    }
+
+    public void login(final Context context, String login, final Intent intent){
+        String url = apiServerUrl+apiPath+loginPath+"?login="+login;
         RequestQueue queue = Volley.newRequestQueue(context);
         // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, responseListener, new Response.ErrorListener() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject object = new JSONObject(response);
+                    JSONModel<User> jsonModel = new JSONModel<>(object, User.class);
+                    user = jsonModel.toModel();
+                    user.save();
+                    context.startActivity(intent);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("APIManager", "FailedLogin:"+error.getMessage());
+                Log.e("APIManager", "FailedLogin:" + error.getMessage());
             }
         });
 
@@ -63,27 +89,21 @@ public class APIManager {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, responseListener, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("APIManager", "FailedLogin");
+                Log.e("APIManager", "FailedLogout");
             }
         });
-
+        user = null;
         queue.add(stringRequest);
     }
 
-    public void events(Context context, Response.Listener<String> responseListener){
-        SharedPreferences sharedPreferences = context.getSharedPreferences(TatenuUFRNApplication.SHARED_PREFERENCES_NAME, context.MODE_PRIVATE);
-        String lastUpdated = sharedPreferences.getString("lastUpdated", "");
-
-        String url = apiServerUrl+apiPath+eventsPath;
-        if (!lastUpdated.equals(""))
-            url += "?last_updated=" + lastUpdated;
-
+    public void getEventUserData(Context context, Response.Listener<String> responseListener){
+        String url = apiServerUrl+apiPath+eventsPath+eventUsersPath;
         RequestQueue queue = Volley.newRequestQueue(context);
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, responseListener, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("APIManager", "FailedLogin");
+                Log.e("APIManager", "FailedGetUSerData:"+error.getMessage());
             }
         });
 
@@ -104,13 +124,13 @@ public class APIManager {
         queue.add(stringRequest);
     }
     public void join(Context context, Response.Listener<String> responseListener, String eventID){
-        String url = apiServerUrl+apiPath+eventsPath+eventID+joinPath;
+        String url = apiServerUrl+apiPath+eventsPath+"/"+eventID+joinPath;
         RequestQueue queue = Volley.newRequestQueue(context);
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, responseListener, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("APIManager", "FailedLogin");
+                Log.e("APIManager", "FailedJoin");
             }
         });
 
@@ -123,7 +143,7 @@ public class APIManager {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, responseListener, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("APIManager", "FailedLogin");
+                Log.e("APIManager", "FailedRate");
             }
         });
 
@@ -136,7 +156,7 @@ public class APIManager {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, responseListener, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("APIManager", "FailedLogin");
+                Log.e("APIManager", "FailedLike");
             }
         });
 
@@ -149,7 +169,7 @@ public class APIManager {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, responseListener, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("APIManager", "FailedLogin");
+                Log.e("APIManager", "FailedDislike");
             }
         });
 
