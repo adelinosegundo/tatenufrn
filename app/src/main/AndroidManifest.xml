@@ -21,8 +21,8 @@
         <activity
             android:name=".activities.Login"
             android:label="@string/title_activity_login"
-            android:theme="@style/LoginAppTheme"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/LoginAppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,11 +32,11 @@
         <activity
             android:name=".activities.ListEvents"
             android:label=""
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.EventDetail"
             android:label=""
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -49,6 +49,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <activity
+            android:name=".PreferencesActivity"
+            android:label="@string/title_activity_preferences"></activity>
     </application>
 
 </manifest>

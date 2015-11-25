@@ -266,7 +266,7 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
     public void setJoinedButton(){
         joinButton.setText("JOINED");
     }
-    
+
     @Override
     public void onMapReady(GoogleMap map) {
         if (event.hasLocation()) {

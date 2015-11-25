@@ -5,4 +5,5 @@
     <string name="title_activity_event_detail">tatenufrn</string>
     <string name="title_activity_login">tatenufrn</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_preferences">PreferencesActivity</string>
 </resources>
