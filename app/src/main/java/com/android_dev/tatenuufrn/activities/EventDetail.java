@@ -4,18 +4,22 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.location.Location;
 import android.media.Rating;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -42,26 +46,39 @@ import com.raizlabs.android.dbflow.sql.builder.Condition;
 import java.util.jar.Attributes;
 
 public class EventDetail extends Activity implements OnMapReadyCallback {
+    private LayoutInflater inflater;
     private FlowCursorList<Event> events;
     private Event event;
     private MapFragment eventLocationMap;
 
-    private TextView titleTextView;
-    private TextView descriptionTextView;
-    private FrameLayout titleLayout;
-    private RatingBar ratingEventRatingBar;
-    private ImageView likeButton;
-
     private Dialog ratingDialog;
+
+    private ImageView likeButton;
+    private Button joinButton;
+
+    private FrameLayout titleLayout;
+
+    private TextView titleTextView;
+    private TextView dateTimeTextView;
+    private TextView addressTextView;
+    private TextView descriptionTextView;
+    private TextView attendeesTitleTextView;
+    private TextView attendeesTextView;
+
+    private View ratingDialogView;
+    private RatingBar ratingDialogViewRatingBar;
+    private Button ratingDialogViewDismissButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         setContentView(R.layout.activity_event_detail);
         String event_id = getIntent().getExtras().getString("event_id");
         events = new FlowCursorList<>(true, Event.class, Condition.column(Event$Table.ID).like((event_id)));
         event = events.getItem(0);
+
         eventLocationMap = MapFragment.newInstance();
         eventLocationMap.getMapAsync(this);
         FragmentTransaction fragmentTransaction =
@@ -69,24 +86,12 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
         fragmentTransaction.add(R.id.eventLocationContainer, eventLocationMap);
         fragmentTransaction.commit();
 
-        titleTextView = (TextView) findViewById(R.id.titleEventDetailTextView);
-
-        descriptionTextView = (TextView) findViewById(R.id.descriptionEventDetailTextView);
-
+        // TITLE BACKGROUND
         titleLayout = (FrameLayout) findViewById(R.id.titleLayout);
-
-        ratingEventRatingBar = (RatingBar) findViewById(R.id.ratingEventRatingBar);
-
-
-
-        titleTextView.setText(event.getTitle());
-
-        descriptionTextView.setText(event.getDescription());
-
         Drawable d = new BitmapDrawable(getResources(), event.getImageBitmap());
-
         titleLayout.setBackground(d);
 
+        // LIKE BUTTON
         likeButton = (ImageView) findViewById(R.id.eventDetailLikeButton);
         likeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,38 +100,27 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
             }
         });
 
+        // TITLE
+        titleTextView = (TextView) findViewById(R.id.eventDetailTitleTextView);
+        titleTextView.setText(event.getTitle());
 
-        ratingEventRatingBar = new RatingBar(this);
-        LayerDrawable stars = (LayerDrawable) ratingEventRatingBar.getProgressDrawable();
-        stars.getDrawable(0).setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
-        stars.getDrawable(1).setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
-        stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
+        // TIME
+        dateTimeTextView = (TextView) findViewById(R.id.eventDetailDateTimeTextView);
+        dateTimeTextView.setText(event.getStringDateAndTime());
 
+        // ADDRESS
+        addressTextView = (TextView) findViewById(R.id.eventDetailAddressTextView);
+        addressTextView.setText(event.getAddress());
 
-        ratingEventRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            public void onRatingChanged(RatingBar ratingBar, float rating,
-                                        boolean fromUser) {
-                rateEvent(rating);
-            }
-        });
+        // DESCRIPTION
+        descriptionTextView = (TextView) findViewById(R.id.eventDetailDescriptionTextView);
+        descriptionTextView.setText(event.getDescription());
 
-        ratingDialog = new Dialog(this);
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
-        ratingDialog.addContentView(ratingEventRatingBar, layoutParams);
-
-        setRatingBar();
+        // RATING DIALOG
+        engineRatingDialog();
     }
 
-    public void likeEvent(){
-        APIManager.getInstance().like(this, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.d("LIKE", response);
-            }
-        }, event.getId());
-    }
-
-    public void setRatingBar() {
+    public void engineRatingDialog() {
         Location eventLocation = new Location("EventLocation");
         eventLocation.setLatitude(event.getLocX());
         eventLocation.setLongitude(event.getLocY());
@@ -137,7 +131,35 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
             Log.i("EventDistance", String.valueOf(distance));
             if (event.getRadiusTrigger().floatValue() < distance) {
                 Log.i("NearEvent", "TRUE");
-                ratingDialog.show();
+
+                // RATING DIALOG VIEW
+                ratingDialogView = inflater.inflate(R.layout.rating_dialog, null);
+
+                ratingDialogViewRatingBar = (RatingBar) ratingDialogView.findViewById(R.id.ratingDialogRatingBar);
+                LayerDrawable stars = (LayerDrawable) ratingDialogViewRatingBar.getProgressDrawable();
+                stars.getDrawable(0).setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
+                stars.getDrawable(1).setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
+                stars.getDrawable(2).setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+
+                ratingDialogViewDismissButton = (Button) ratingDialogView.findViewById(R.id.ratingDialogDismissButton);
+
+                ratingDialogViewRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                    public void onRatingChanged(RatingBar ratingBar, float rating,
+                                                boolean fromUser) {
+                        rateEvent(rating);
+                    }
+                });
+
+                // RATING DIALOG
+                ratingDialog = new Dialog(this);
+                ratingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+                ratingDialog.setContentView(ratingDialogView);
+
+                ratingDialogViewDismissButton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        ratingDialog.dismiss();
+                    }
+                });
             }
         }
     }
@@ -151,6 +173,18 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
             }
         }, event.getId(), rating);
     }
+
+    public void likeEvent(){
+        APIManager.getInstance().like(this, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d("LIKE", response);
+            }
+        }, event.getId());
+    }
+
+
+
 
     @Override
     public void onMapReady(GoogleMap map) {

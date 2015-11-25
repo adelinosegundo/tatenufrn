@@ -14,6 +14,10 @@ import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.annotation.ModelContainer;
 import com.raizlabs.android.dbflow.structure.BaseModel;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by adelinosegundo on 10/7/15.
  */
@@ -104,13 +108,9 @@ public class Event extends BaseModel implements Parcelable {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+    public void setId(String id) { this.id = id; }
 
-    public String getTitle() {
-        return title;
-    }
+    public String getTitle() { return title; }
 
     public void setTitle(String title) {
         this.title = title;
@@ -231,6 +231,26 @@ public class Event extends BaseModel implements Parcelable {
 
     public void setUpdatedAt(Integer updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getStringDateAndTime() {
+        long nowMillis = System.currentTimeMillis() - 10800000;
+
+        long startTimeMillis = this.getStartTime().longValue() * 1000;
+        long endTimeMillis = this.getEndTime().longValue() * 1000;
+
+        Date todayDate = new Date(nowMillis);
+        Date startDate = new Date(startTimeMillis);
+        Date endDate = new Date(endTimeMillis);
+
+        String todayDateString = new SimpleDateFormat("dd/MM").format(todayDate);
+        String startDateString = new SimpleDateFormat("dd/MM").format(startDate);
+        String startTimeString = new SimpleDateFormat("HH:mm").format(startDate);
+        String endTimeString = new SimpleDateFormat("HH:mm").format(endDate);
+
+        if (todayDateString == startDateString) { startDateString = "Today"; }
+
+        return startDateString + " " + startTimeString + " - " + endTimeString;
     }
 
     @Override
