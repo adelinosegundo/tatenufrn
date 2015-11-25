@@ -45,8 +45,7 @@ public class Login extends Activity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // login(); // LOGIN FROM INSIDE THE UFRN
-                loginFromOutsideUFRN(); // LOGIN FROM OUTSIDE THE UFRN
+                login("mylogin"); // LOGIN FROM INSIDE THE UFRN
             }
         });
     }
@@ -55,18 +54,8 @@ public class Login extends Activity {
         Log.d("Result", "reqCode: " + String.valueOf(requestCode) + " resCode: " + String.valueOf(resultCode));
     }
 
-    public void loginFromOutsideUFRN(){
-        final Context context = this;
-        APIManager.getInstance().login(this, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Intent intent = new Intent(context, ListEvents.class);
-                context.startActivity(intent);
-            }
-        });
-    }
 
-    public void login(){
+    public void sigaa_login(){
         OAuthTokenRequest.getInstance().getTokenCredential(this, "http://apitestes.info.ufrn.br/authz-server", "taten-ufrn-id", "tatenufrn", new OAuthManager.OAuthCallback<Credential>() {
             @Override public void run(OAuthManager.OAuthFuture<Credential> future) {
                 try {
@@ -81,6 +70,12 @@ public class Login extends Activity {
                 // make API queries with credential.getAccessToken()
             }
         });
+    }
+
+    public void login(String login){
+        final Context context = this;
+        Intent intent = new Intent(context, ListEvents.class);
+        APIManager.getInstance().login(this, login, intent);
     }
 
     public void getUserData(){

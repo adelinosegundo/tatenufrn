@@ -1,6 +1,7 @@
 package com.android_dev.tatenuufrn.activities;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -14,15 +15,19 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.android.volley.Response;
 import com.android_dev.tatenuufrn.R;
 import com.android_dev.tatenuufrn.adapters.EventAdapter;
 import com.android_dev.tatenuufrn.applications.TatenuUFRNApplication;
 import com.android_dev.tatenuufrn.domain.Event;
+import com.android_dev.tatenuufrn.domain.EventUser;
 import com.android_dev.tatenuufrn.helpers.DateHelper;
+import com.android_dev.tatenuufrn.managers.APIManager;
 import com.android_dev.tatenuufrn.managers.EventManager;
 import com.raizlabs.android.dbflow.structure.container.JSONModel;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,11 +38,11 @@ public class ListEvents extends Activity {
     EventAdapter adapter;
     private EventLoaderAsyncTask eventLoaderAsyncTask;
     private SwipeRefreshLayout swipeRefreshLayout;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_events);
+
         listEvents = (ListView) findViewById(R.id.event_list);
         adapter = new EventAdapter(this, R.layout.activity_list_events);
         listEvents.setAdapter(adapter);
@@ -64,6 +69,27 @@ public class ListEvents extends Activity {
             eventLoaderAsyncTask = new EventLoaderAsyncTask();
             eventLoaderAsyncTask.execute();
         }
+    }
+
+    public void updateEventUserData(){
+        Log.d("updateEventUserData", "CALL");
+        APIManager.getInstance().getEventUserData(this, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray arr = new JSONArray(response);
+                    for (int i=0; i < arr.length(); i++) {
+                        JSONModel<EventUser> jsonModel = new JSONModel<>(arr.getJSONObject(i), EventUser.class);
+                        EventUser eventUser = jsonModel.toModel();
+                        Log.d("eventUserJson", arr.getJSONObject(i).toString());
+                        Log.d("eventUserModel", eventUser.toString());
+                        eventUser.save();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override
@@ -126,8 +152,10 @@ public class ListEvents extends Activity {
                     event.updateImageString();
                     event.save();
                     result.add(event);
-                    publishProgress(i, arr.length());
+                    publishProgress(i, arr.length()+1);
                 }
+                updateEventUserData();
+                publishProgress(1, 1);
             }
             catch(Throwable t) {
                 t.printStackTrace();
