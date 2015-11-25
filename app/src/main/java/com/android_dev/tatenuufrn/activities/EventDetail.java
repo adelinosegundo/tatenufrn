@@ -153,6 +153,17 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
         attendeesTitleTextView= (TextView) findViewById(R.id.eventDetailAttendeesTitleTextView);
         attendeesTextView = (TextView) findViewById(R.id.eventDetailAttendeesTextView);
 
+        // RATING DIALOG VIEW
+        ratingDialogView = inflater.inflate(R.layout.rating_dialog, null);
+
+        ratingDialogViewRatingBar = (RatingBar) ratingDialogView.findViewById(R.id.ratingDialogRatingBar);
+        LayerDrawable stars = (LayerDrawable) ratingDialogViewRatingBar.getProgressDrawable();
+        stars.getDrawable(0).setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
+        stars.getDrawable(1).setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
+        stars.getDrawable(2).setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+
+        ratingDialogViewDismissButton = (Button) ratingDialogView.findViewById(R.id.ratingDialogDismissButton);
+
         // RATING DIALOG
         engineRatingDialog();
     }
@@ -198,17 +209,6 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
             Log.i("EventDistance", String.valueOf(distance));
             if (event.getRadiusTrigger().floatValue() < distance) {
                 Log.i("NearEvent", "TRUE");
-
-                // RATING DIALOG VIEW
-                ratingDialogView = inflater.inflate(R.layout.rating_dialog, null);
-
-                ratingDialogViewRatingBar = (RatingBar) ratingDialogView.findViewById(R.id.ratingDialogRatingBar);
-                LayerDrawable stars = (LayerDrawable) ratingDialogViewRatingBar.getProgressDrawable();
-                stars.getDrawable(0).setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
-                stars.getDrawable(1).setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
-                stars.getDrawable(2).setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
-
-                ratingDialogViewDismissButton = (Button) ratingDialogView.findViewById(R.id.ratingDialogDismissButton);
 
                 // RATING DIALOG
                 ratingDialog = new Dialog(this);
