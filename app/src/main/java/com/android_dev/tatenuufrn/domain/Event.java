@@ -73,6 +73,11 @@ public class Event extends BaseModel implements Parcelable {
     @Column
     private Integer updatedAt;
 
+    @Column
+    private Integer attendeesCount;
+
+    @Column
+    private String attendees;
 
     public Event(){
     }
@@ -251,6 +256,22 @@ public class Event extends BaseModel implements Parcelable {
         if (todayDateString == startDateString) { startDateString = "Today"; }
 
         return startDateString + " " + startTimeString + " - " + endTimeString;
+    }
+
+    public Integer getAttendeesCount() {
+        return attendeesCount;
+    }
+
+    public void setAttendeesCount(Integer attendeesCount) {
+        this.attendeesCount = attendeesCount;
+    }
+
+    public String getAttendees() {
+        return attendees;
+    }
+
+    public void setAttendees(String attendees) {
+        this.attendees = attendees;
     }
 
     @Override

@@ -31,8 +31,8 @@ public class APIManager {
     private final String loginPath = "/auth/login";
     private final String logoutPath = "/auth/logout";
     private final String eventsPath = "/events";
-    private final String tellIAmGoingPath = "/tell_i_am_going";
-    private final String joinPath = "/join";
+    private final String goingPath = "/going";
+    private final String arrivePath = "/arrive";
     private final String ratePath = "/rate";
     private final String likePath = "/like";
     private final String dislikePath = "/dislike";
@@ -75,7 +75,7 @@ public class APIManager {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("APIManager", "FailedLogin:" + error.getMessage());
+                Log.e("APIManager", "FailedLogin: " + error.getMessage());
             }
         });
 
@@ -89,7 +89,7 @@ public class APIManager {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, responseListener, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("APIManager", "FailedLogout");
+                Log.e("APIManager", "FailedLogout: "+error.getMessage());
             }
         });
         user = null;
@@ -103,34 +103,34 @@ public class APIManager {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, responseListener, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("APIManager", "FailedGetUSerData:"+error.getMessage());
+                Log.e("APIManager", "FailedGetUSerData: "+error.getMessage());
             }
         });
 
         queue.add(stringRequest);
     }
 
-    public void tellIAmGoing(Context context, Response.Listener<String> responseListener, String eventID){
-        String url = apiServerUrl+apiPath+eventsPath+eventID+tellIAmGoingPath;
+    public void going(Context context, Response.Listener<String> responseListener, String eventID){
+        String url = apiServerUrl+apiPath+eventsPath+eventID+goingPath;
         RequestQueue queue = Volley.newRequestQueue(context);
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, responseListener, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("APIManager", "FailedLogin");
+                Log.e("APIManager", "FailedGoing: "+error.getMessage());
             }
         });
 
         queue.add(stringRequest);
     }
-    public void join(Context context, Response.Listener<String> responseListener, String eventID){
-        String url = apiServerUrl+apiPath+eventsPath+"/"+eventID+joinPath;
+    public void arrive(Context context, Response.Listener<String> responseListener, String eventID){
+        String url = apiServerUrl+apiPath+eventsPath+"/"+eventID+arrivePath;
         RequestQueue queue = Volley.newRequestQueue(context);
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, responseListener, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("APIManager", "FailedJoin");
+                Log.e("APIManager", "FailedJoin: "+error.getMessage());
             }
         });
 
@@ -143,7 +143,7 @@ public class APIManager {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, responseListener, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("APIManager", "FailedRate");
+                Log.e("APIManager", "FailedRate: "+error.getMessage());
             }
         });
 
@@ -156,7 +156,7 @@ public class APIManager {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, responseListener, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("APIManager", "FailedLike");
+                Log.e("APIManager", "FailedLike: "+error.getMessage());
             }
         });
 
@@ -169,7 +169,7 @@ public class APIManager {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, responseListener, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("APIManager", "FailedDislike");
+                Log.e("APIManager", "FailedDislike: "+error.getMessage());
             }
         });
 

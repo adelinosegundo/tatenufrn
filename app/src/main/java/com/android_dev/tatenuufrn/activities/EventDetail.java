@@ -1,6 +1,5 @@
 package com.android_dev.tatenuufrn.activities;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.FragmentTransaction;
@@ -22,7 +21,6 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.RatingBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -63,7 +61,7 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
     private Dialog ratingDialog;
 
     private ImageButton likeButton;
-    private Button joinButton;
+    private Button goingButton;
 
     private FrameLayout titleLayout;
 
@@ -106,11 +104,14 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
 
         if (eventUser != null){
             if (eventUser.getLiked()) setLikedButton();
-            if (eventUser.getLiked()) setJoinedButton();
+            if (eventUser.getLiked()) setGoingButton();
             if (eventUser.getRate() == null) engineRatingDialog();
         } else {
             engineRatingDialog();
         }
+
+        attendeesTitleTextView.setText(String.valueOf(event.getAttendeesCount())+ " ATTENDEES");
+        attendeesTextView.setText(event.getAttendees());
     }
 
     public void initializeUI() {
@@ -130,7 +131,7 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
         likeButton = (ImageButton) findViewById(R.id.eventDetailLikeButton);
 
         // LIKE BUTTON
-        joinButton = (Button) findViewById(R.id.eventDetailJoinButton);
+        goingButton = (Button) findViewById(R.id.eventDetailJoinButton);
 
         // TITLE
         titleTextView = (TextView) findViewById(R.id.eventDetailTitleTextView);
@@ -148,6 +149,21 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
         descriptionTextView = (TextView) findViewById(R.id.eventDetailDescriptionTextView);
         descriptionTextView.setText(event.getDescription());
 
+        // ATTENDEES
+        attendeesTitleTextView= (TextView) findViewById(R.id.eventDetailAttendeesTitleTextView);
+        attendeesTextView = (TextView) findViewById(R.id.eventDetailAttendeesTextView);
+
+        // RATING DIALOG VIEW
+        ratingDialogView = inflater.inflate(R.layout.rating_dialog, null);
+
+        ratingDialogViewRatingBar = (RatingBar) ratingDialogView.findViewById(R.id.ratingDialogRatingBar);
+        LayerDrawable stars = (LayerDrawable) ratingDialogViewRatingBar.getProgressDrawable();
+        stars.getDrawable(0).setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
+        stars.getDrawable(1).setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
+        stars.getDrawable(2).setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+
+        ratingDialogViewDismissButton = (Button) ratingDialogView.findViewById(R.id.ratingDialogDismissButton);
+
         // RATING DIALOG
         engineRatingDialog();
     }
@@ -161,10 +177,10 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
         });
 
 
-        joinButton.setOnClickListener(new View.OnClickListener() {
+        goingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                joinEvent();
+                goingToEvent();
             }
         });
 
@@ -193,17 +209,6 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
             Log.i("EventDistance", String.valueOf(distance));
             if (event.getRadiusTrigger().floatValue() < distance) {
                 Log.i("NearEvent", "TRUE");
-
-                // RATING DIALOG VIEW
-                ratingDialogView = inflater.inflate(R.layout.rating_dialog, null);
-
-                ratingDialogViewRatingBar = (RatingBar) ratingDialogView.findViewById(R.id.ratingDialogRatingBar);
-                LayerDrawable stars = (LayerDrawable) ratingDialogViewRatingBar.getProgressDrawable();
-                stars.getDrawable(0).setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
-                stars.getDrawable(1).setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
-                stars.getDrawable(2).setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
-
-                ratingDialogViewDismissButton = (Button) ratingDialogView.findViewById(R.id.ratingDialogDismissButton);
 
                 // RATING DIALOG
                 ratingDialog = new Dialog(this);
@@ -237,13 +242,13 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
         }, event.getId());
     }
 
-    public void joinEvent(){
-        APIManager.getInstance().join(this, new Response.Listener<String>() {
+    public void goingToEvent(){
+        APIManager.getInstance().going(this, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d("JOIN", response);
                 updateEventUser(response);
-                setJoinedButton();
+                setGoingButton();
             }
         }, event.getId());
     }
@@ -263,8 +268,8 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
         likeButton.setImageResource(R.drawable.i_heart_g40);
     }
 
-    public void setJoinedButton(){
-        joinButton.setText("JOINED");
+    public void setGoingButton(){
+        goingButton.setText("GOING");
     }
 
     @Override
