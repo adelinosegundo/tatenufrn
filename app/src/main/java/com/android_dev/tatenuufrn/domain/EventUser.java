@@ -27,7 +27,10 @@ public class EventUser extends BaseModel {
     private String userId;
 
     @Column
-    private boolean joined;
+    private boolean going;
+
+    @Column
+    private boolean arrived;
 
     @Column
     private boolean liked;
@@ -59,12 +62,20 @@ public class EventUser extends BaseModel {
         this.userId = userId;
     }
 
-    public boolean getJoined() {
-        return joined;
+    public boolean getGoing() {
+        return going;
     }
 
-    public void setJoined(boolean joined) {
-        this.joined = joined;
+    public void setGoing(boolean going) {
+        this.going = going;
+    }
+
+    public boolean getArrived() {
+        return arrived;
+    }
+
+    public void setArrived(boolean arrived) {
+        this.arrived = arrived;
     }
 
     public boolean getLiked() {
@@ -84,6 +95,6 @@ public class EventUser extends BaseModel {
     }
 
     public String toString(){
-        return "liked: "+ String.valueOf(liked) + " joined: " + String.valueOf(joined) + " rate: " + String.valueOf(rate);
+        return "liked: "+ String.valueOf(liked) + " going: " + String.valueOf(going) + " rate: " + String.valueOf(rate);
     }
 }
