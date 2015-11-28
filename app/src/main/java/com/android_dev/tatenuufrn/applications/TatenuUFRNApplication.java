@@ -40,8 +40,7 @@ public class TatenuUFRNApplication extends Application implements GoogleApiClien
 
     public void startServices(){
         SharedPreferences sharedPreferences = getSharedPreferences(TatenuUFRNApplication.SHARED_PREFERENCES_NAME, MODE_PRIVATE);
-        if (sharedPreferences.getBoolean(EVENT_LOCATION_PREFERENCE_NAME, true)
-                && !isServiceRunning(EventLocationService.class.toString(), this))
+        if (sharedPreferences.getBoolean(EVENT_LOCATION_PREFERENCE_NAME, true))
             startService(new Intent(this, EventLocationService.class));
     }
 
@@ -59,8 +58,10 @@ public class TatenuUFRNApplication extends Application implements GoogleApiClien
 
         //ResetPreferences
         SharedPreferences sharedPreferences = getSharedPreferences(TatenuUFRNApplication.SHARED_PREFERENCES_NAME, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
         sharedPreferences.edit().clear().commit();
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        pref.edit().clear().commit();
+
     }
 
     @Override

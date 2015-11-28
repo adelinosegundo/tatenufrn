@@ -11,6 +11,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.android_dev.tatenuufrn.TatenUFRNNotificationManager;
 import com.android_dev.tatenuufrn.domain.Event;
 import com.raizlabs.android.dbflow.sql.language.Select;
 
@@ -37,6 +38,7 @@ public class EventLocationService extends TrackableService {
     @Override
     public void onCreate() {
         Log.d("CheckNearEvents", "Service created");
+        final Context context = this;
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         locationListener = new LocationListener() {
             public void onLocationChanged(Location location) {
@@ -55,6 +57,7 @@ public class EventLocationService extends TrackableService {
                     Log.i("EventDistance", String.valueOf(distance));
                     if (event.getRadiusTrigger().floatValue() > distance) {
                         String event_id = event.getId();
+                        TatenUFRNNotificationManager.buildEventNotification(context, event_id);
                     }
                 }
             }
@@ -65,7 +68,7 @@ public class EventLocationService extends TrackableService {
 
             public void onProviderDisabled(String provider) {}
         };
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10, 0, locationListener);
         this.setRunning(true);
     }
 
