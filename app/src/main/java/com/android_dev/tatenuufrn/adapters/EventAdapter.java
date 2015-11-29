@@ -101,8 +101,8 @@ public class EventAdapter extends ArrayAdapter<Event> {
         if (event != null) {
             holder.title.setText(event.getTitle());
             holder.image.setImageBitmap(event.getImageBitmap());
-            holder.like.setRating(2);
-            holder.rating.setRating(2);
+            holder.like.setRating(event.getLikes());
+            holder.rating.setRating(event.getRating().floatValue());
 
 //          Calendar nowCalendar = Calendar.getInstance();
 //          nowCalendar.setTimeZone(TimeZone.getTimeZone("GMT"));
