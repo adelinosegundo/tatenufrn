@@ -1,6 +1,5 @@
 package com.android_dev.tatenuufrn.services;
 
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -11,8 +10,8 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.android_dev.tatenuufrn.TatenUFRNNotificationManager;
 import com.android_dev.tatenuufrn.domain.Event;
+import com.android_dev.tatenuufrn.managers.TatenUFRNNotificationManager;
 import com.raizlabs.android.dbflow.sql.language.Select;
 
 import java.util.List;

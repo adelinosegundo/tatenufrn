@@ -2,6 +2,7 @@ package com.android_dev.tatenuufrn.activities;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -109,6 +110,11 @@ public class ListEvents extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void startMap(){
+        Intent intent = new Intent(this, Preferences.class);
+        startActivity(intent);
+    }
+
     private class EventLoaderAsyncTask extends AsyncTask<Void, Integer, Void> {
 
         @Override
@@ -127,6 +133,7 @@ public class ListEvents extends Activity {
             editor.commit();
             eventLoaderAsyncTask = null;
             swipeRefreshLayout.setRefreshing(false);
+            startMap();
         }
 
         @Override
