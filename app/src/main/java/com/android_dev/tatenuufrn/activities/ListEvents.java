@@ -1,8 +1,6 @@
 package com.android_dev.tatenuufrn.activities;
 
 
-import android.content.Context;
-import android.content.Intent;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -11,8 +9,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.android.volley.Response;
@@ -42,7 +38,6 @@ public class ListEvents extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_events);
-
         listEvents = (ListView) findViewById(R.id.event_list);
         adapter = new EventAdapter(this, R.layout.activity_list_events);
         listEvents.setAdapter(adapter);
@@ -78,7 +73,7 @@ public class ListEvents extends Activity {
             public void onResponse(String response) {
                 try {
                     JSONArray arr = new JSONArray(response);
-                    for (int i=0; i < arr.length(); i++) {
+                    for (int i = 0; i < arr.length(); i++) {
                         JSONModel<EventUser> jsonModel = new JSONModel<>(arr.getJSONObject(i), EventUser.class);
                         EventUser eventUser = jsonModel.toModel();
                         Log.d("eventUserJson", arr.getJSONObject(i).toString());
