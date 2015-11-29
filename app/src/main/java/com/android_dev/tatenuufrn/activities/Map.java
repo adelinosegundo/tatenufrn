@@ -1,14 +1,16 @@
-package com.android_dev.tatenuufrn;
+package com.android_dev.tatenuufrn.activities;
 
 import android.os.Bundle;
 import android.app.Activity;
 
-public class PreferencesActivity extends Activity {
+import com.android_dev.tatenuufrn.R;
+
+public class Map extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_preferences);
+        setContentView(R.layout.activity_map);
     }
 
 }

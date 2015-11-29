@@ -50,8 +50,11 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".PreferencesActivity"
-            android:label="@string/title_activity_preferences"></activity>
+            android:name=".activities.Preferences"
+            android:label="@string/title_activity_preferences" />
+        <activity
+            android:name=".activities.Map"
+            android:label="@string/title_activity_map"></activity>
     </application>
 
 </manifest>

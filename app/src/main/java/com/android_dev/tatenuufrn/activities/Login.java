@@ -46,6 +46,7 @@ public class Login extends Activity {
             @Override
             public void onClick(View v) {
                 login("mylogin"); // LOGIN FROM INSIDE THE UFRN
+//                sigaa_login();
             }
         });
     }

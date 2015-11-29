@@ -111,7 +111,7 @@ public class APIManager {
     }
 
     public void going(Context context, Response.Listener<String> responseListener, String eventID){
-        String url = apiServerUrl+apiPath+eventsPath+eventID+goingPath;
+        String url = apiServerUrl+apiPath+eventsPath+"/"+eventID+goingPath;
         RequestQueue queue = Volley.newRequestQueue(context);
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, responseListener, new Response.ErrorListener() {

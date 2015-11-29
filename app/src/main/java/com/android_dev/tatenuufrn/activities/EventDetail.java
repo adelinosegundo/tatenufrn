@@ -110,7 +110,7 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
             engineRatingDialog();
         }
 
-        attendeesTitleTextView.setText(String.valueOf(event.getAttendeesCount())+ " ATTENDEES");
+        attendeesTitleTextView.setText(String.valueOf(event.getAttendeesCount()) + " ATTENDEES");
         attendeesTextView.setText(event.getAttendees());
     }
 
@@ -165,6 +165,11 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
         ratingDialogViewDismissButton = (Button) ratingDialogView.findViewById(R.id.ratingDialogDismissButton);
 
         // RATING DIALOG
+        ratingDialog = new Dialog(this);
+        ratingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+        ratingDialog.setContentView(ratingDialogView);
+
+        // RATING DIALOG
         engineRatingDialog();
     }
 
@@ -210,10 +215,7 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
             if (event.getRadiusTrigger().floatValue() < distance) {
                 Log.i("NearEvent", "TRUE");
 
-                // RATING DIALOG
-                ratingDialog = new Dialog(this);
-                ratingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLACK));
-                ratingDialog.setContentView(ratingDialogView);
+                ratingDialog.show();
             }
         }
     }
@@ -270,6 +272,7 @@ public class EventDetail extends Activity implements OnMapReadyCallback {
 
     public void setGoingButton(){
         goingButton.setText("GOING");
+        goingButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.i_check_w40, 0, 0, 0);
     }
 
     @Override
