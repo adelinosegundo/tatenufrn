@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
+import android.media.Rating;
 import android.os.CountDownTimer;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -73,7 +74,8 @@ public class EventAdapter extends ArrayAdapter<Event> {
 
             holder.title = (TextView) view.findViewById(R.id.titleEventRowTextView);
             holder.image = (ImageView) view.findViewById(R.id.imageEventRowImageView);
-            holder.rating = (RatingBar) view.findViewById(R.id.ratingEventRatingBar);
+            holder.like = (RatingBar) view.findViewById(R.id.eventRowLikeRatingBar);
+            holder.rating = (RatingBar) view.findViewById(R.id.eventRowRatingRatingBar);
             holder.timeTitle = (TextView) view.findViewById(R.id.timeTitleEventRowTextView);
             holder.time = (TextView) view.findViewById(R.id.timeEventRowTextView);
 
@@ -99,6 +101,8 @@ public class EventAdapter extends ArrayAdapter<Event> {
         if (event != null) {
             holder.title.setText(event.getTitle());
             holder.image.setImageBitmap(event.getImageBitmap());
+            holder.like.setRating(2);
+            holder.rating.setRating(2);
 
 //          Calendar nowCalendar = Calendar.getInstance();
 //          nowCalendar.setTimeZone(TimeZone.getTimeZone("GMT"));
@@ -144,6 +148,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
         TextView timeTitle;
         TextView time;
         ImageView image;
+        RatingBar like;
         RatingBar rating;
         EventCountDownTimer countDownTimer;
     }
