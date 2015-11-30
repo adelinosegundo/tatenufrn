@@ -24,8 +24,8 @@ public class TatenuUFRNApplication extends Application implements GoogleApiClien
     public static String SHARED_PREFERENCES_NAME = "TatenUFRN";
     public static String EVENT_LOCATION_PREFERENCE_NAME = "eneableEventLocationServices";
 
-//    public static final String API_HOST = "http://tatenufrn-webservice.herokuapp.com";
-    public static final String API_HOST = "http://192.168.0.7:3000";
+    public static final String API_HOST = "http://tatenufrn-webservice.herokuapp.com";
+//    public static final String API_HOST = "http://192.168.0.7:3000";
 
     public static GoogleApiClient mGoogleApiClient;
 

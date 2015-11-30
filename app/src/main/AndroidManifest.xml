@@ -53,12 +53,13 @@
 
         <activity
             android:name=".activities.Preferences"
-            android:label="@string/title_activity_preferences" />
+            android:label="@string/title_activity_preferences"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.Map"
-            android:label="@string/title_activity_map" />
-        <activity android:name=".activities.BaseActivity" >
-        </activity>
+            android:label="@string/title_activity_map"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activities.BaseActivity" />
     </application>
 
 </manifest>

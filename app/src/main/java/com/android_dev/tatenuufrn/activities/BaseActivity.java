@@ -4,6 +4,7 @@ package com.android_dev.tatenuufrn.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.android_dev.tatenuufrn.R;
@@ -32,6 +33,13 @@ public class BaseActivity extends Activity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.application_menu, menu);
+        return true;
     }
 
     protected void eventsList(){
