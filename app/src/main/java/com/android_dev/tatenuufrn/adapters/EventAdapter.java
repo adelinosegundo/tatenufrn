@@ -80,8 +80,13 @@ public class EventAdapter extends ArrayAdapter<Event> {
             holder.time = (TextView) view.findViewById(R.id.timeEventRowTextView);
 
             // Set Rating Stars Color
-            LayerDrawable stars = (LayerDrawable) holder.rating.getProgressDrawable();
-            stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
+            LayerDrawable starsLike = (LayerDrawable) holder.like.getProgressDrawable();
+            starsLike.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
+
+            LayerDrawable starsRating = (LayerDrawable) holder.rating.getProgressDrawable();
+            starsRating.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
+
+
 
             view.setTag(holder);
 

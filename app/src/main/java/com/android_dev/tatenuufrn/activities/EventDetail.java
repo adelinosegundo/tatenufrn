@@ -204,18 +204,20 @@ public class EventDetail extends BaseActivity implements OnMapReadyCallback {
     }
 
     public void engineRatingDialog() {
-        Location eventLocation = new Location("EventLocation");
-        eventLocation.setLatitude(event.getLocX());
-        eventLocation.setLongitude(event.getLocY());
-        Location userLocation = LocationServices.FusedLocationApi
-                .getLastLocation(TatenuUFRNApplication.mGoogleApiClient);
-        if (userLocation != null){
-            float distance = userLocation.distanceTo(eventLocation);
-            Log.i("EventDistance", String.valueOf(distance));
-            if (event.getRadiusTrigger().floatValue() < distance) {
-                Log.i("NearEvent", "TRUE");
+        if (event.hasLocation()) {
+            Location eventLocation = new Location("EventLocation");
+            eventLocation.setLatitude(event.getLocX());
+            eventLocation.setLongitude(event.getLocY());
+            Location userLocation = LocationServices.FusedLocationApi
+                    .getLastLocation(TatenuUFRNApplication.mGoogleApiClient);
+            if ((eventUser == null || eventUser.getRate() == null) && userLocation != null) {
+                float distance = userLocation.distanceTo(eventLocation);
+                Log.i("EventDistance", String.valueOf(distance));
+                if (event.getRadiusTrigger().floatValue() > distance) {
+                    Log.i("NearEvent", "TRUE");
 
-                ratingDialog.show();
+                    ratingDialog.show();
+                }
             }
         }
     }
