@@ -53,8 +53,8 @@ public class Map extends BaseActivity implements OnMapReadyCallback, GoogleMap.O
                         .title(event.getTitle())
                         .draggable(false)
                         .snippet(event.getId()));
-                googleMap.getUiSettings().setScrollGesturesEnabled(false);
-                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(eventLocation, 11));
+//                googleMap.getUiSettings().setScrollGesturesEnabled(false);
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(eventLocation, 13));
             }
         }
 
