@@ -15,6 +15,7 @@ import android.widget.ListView;
 import com.android_dev.tatenuufrn.R;
 import com.android_dev.tatenuufrn.databases.TatenUFRNDatabase;
 import com.android_dev.tatenuufrn.services.EventLocationService;
+import com.android_dev.tatenuufrn.vendor.OAuthTokenRequest;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -66,6 +67,9 @@ public class TatenuUFRNApplication extends Application implements GoogleApiClien
         sharedPreferences.edit().clear().commit();
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         pref.edit().clear().commit();
+
+        OAuthTokenRequest.getInstance().
+                logout(this, "http://apitestes.info.ufrn.br/sso-server/logout");
 
     }
 

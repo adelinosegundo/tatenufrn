@@ -28,6 +28,7 @@ import java.util.Map;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
+import android.webkit.WebView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -138,6 +139,12 @@ public class OAuthTokenRequest {
 
     public void setCredentials(Credential result) {
         credential = result;
+    }
+
+    public void logout(Context context, String url) {
+        WebView w= new WebView(context);
+        w.loadUrl(url);
+        credential = null;
     }
 }
 
