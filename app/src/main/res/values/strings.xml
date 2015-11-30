@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">TatenuUFRN</string>
     <string name="title_activity_list_events">tatenufrn</string>
-    <string name="action_settings">tatenufrn | settings</string>
+    <string name="events_list">List</string>
+    <string name="events_map">Map</string>
+    <string name="preferences">Settings</string>
     <string name="title_activity_event_detail">tatenufrn</string>
     <string name="title_activity_login">tatenufrn</string>
     <string name="title_activity_maps">Map</string>

@@ -6,10 +6,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.android.volley.Response;
@@ -30,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ListEvents extends Activity {
+public class ListEvents extends BaseActivity {
     ListView listEvents;
     EventAdapter adapter;
     private EventLoaderAsyncTask eventLoaderAsyncTask;
@@ -39,6 +41,7 @@ public class ListEvents extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_events);
+
         listEvents = (ListView) findViewById(R.id.event_list);
         adapter = new EventAdapter(this, R.layout.activity_list_events);
         listEvents.setAdapter(adapter);
@@ -110,11 +113,6 @@ public class ListEvents extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void startMap(){
-        Intent intent = new Intent(this, Preferences.class);
-        startActivity(intent);
-    }
-
     private class EventLoaderAsyncTask extends AsyncTask<Void, Integer, Void> {
 
         @Override
@@ -133,7 +131,6 @@ public class ListEvents extends Activity {
             editor.commit();
             eventLoaderAsyncTask = null;
             swipeRefreshLayout.setRefreshing(false);
-            startMap();
         }
 
         @Override

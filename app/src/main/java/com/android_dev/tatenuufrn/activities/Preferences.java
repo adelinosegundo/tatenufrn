@@ -12,7 +12,7 @@ import com.android_dev.tatenuufrn.R;
 import com.android_dev.tatenuufrn.applications.TatenuUFRNApplication;
 import com.android_dev.tatenuufrn.services.EventLocationService;
 
-public class Preferences extends Activity {
+public class Preferences extends BaseActivity {
     private Switch rateEventNotificationSwich;
 
     @Override

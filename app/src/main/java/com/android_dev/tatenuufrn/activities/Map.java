@@ -24,7 +24,7 @@ import com.raizlabs.android.dbflow.sql.language.Select;
 
 import java.util.List;
 
-public class Map extends Activity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+public class Map extends BaseActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
     private MapFragment eventLocationMap;
 
     @Override

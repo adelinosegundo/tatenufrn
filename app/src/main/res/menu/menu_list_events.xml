@@ -1,7 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.android_dev.tatenuufrn.activities.ListEvents">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
+    tools:context="com.android_dev.tatenuufrn.activities.BaseActivity">
+    <item android:id="@+id/menu_item_events_list" android:title="@string/events_list"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/menu_item_events_map" android:title="@string/events_map"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/menu_item_preferences" android:title="@string/preferences"
         android:orderInCategory="100" app:showAsAction="never" />
 </menu>

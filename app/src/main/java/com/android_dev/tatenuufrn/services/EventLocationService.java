@@ -67,7 +67,7 @@ public class EventLocationService extends TrackableService {
 
             public void onProviderDisabled(String provider) {}
         };
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10, 0, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 600000, 0, locationListener);
         this.setRunning(true);
     }
 

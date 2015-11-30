@@ -48,7 +48,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-public class EventDetail extends Activity implements OnMapReadyCallback {
+public class EventDetail extends BaseActivity implements OnMapReadyCallback {
     private LayoutInflater inflater;
     private FlowCursorList<Event> events;
     private Event event;

@@ -1,13 +1,18 @@
 package com.android_dev.tatenuufrn.applications;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
+import com.android_dev.tatenuufrn.R;
 import com.android_dev.tatenuufrn.databases.TatenUFRNDatabase;
 import com.android_dev.tatenuufrn.services.EventLocationService;
 import com.google.android.gms.common.ConnectionResult;
@@ -20,7 +25,7 @@ public class TatenuUFRNApplication extends Application implements GoogleApiClien
     public static String EVENT_LOCATION_PREFERENCE_NAME = "eneableEventLocationServices";
 
 //    public static final String API_HOST = "http://tatenufrn-webservice.herokuapp.com";
-    public static final String API_HOST = "http://192.168.25.20:3000";
+    public static final String API_HOST = "http://192.168.0.7:3000";
 
     public static GoogleApiClient mGoogleApiClient;
 
