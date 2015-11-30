@@ -45,8 +45,8 @@ public class Login extends Activity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                login("mylogin"); // LOGIN FROM INSIDE THE UFRN
-//                sigaa_login();
+//                login("mylogin"); // LOGIN FROM INSIDE THE UFRN
+                sigaa_login();
             }
         });
     }
@@ -99,8 +99,7 @@ public class Login extends Activity {
 
                     VolleyLog.d("SAID", "UserData", response);
                     Log.i("USERDATA", response);
-                    Intent intent = new Intent(context, ListEvents.class);
-                    context.startActivity(intent);
+                    login(login);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
