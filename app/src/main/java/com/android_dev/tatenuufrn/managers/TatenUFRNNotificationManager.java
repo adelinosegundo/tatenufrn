@@ -25,9 +25,9 @@ public class TatenUFRNNotificationManager {
                 );
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.notification_template_icon_bg)
-                        .setContentTitle("My notification")
-                        .setContentText("Hello World!")
+                        .setSmallIcon(R.drawable.i_tatenu_w100)
+                        .setContentTitle("RATE TE EVENT")
+                        .setContentText("LOOKS LIKE YOU CAME TO THE EVENT! PLEASE, TELL US HOW MUCH ARE YOU ENJOYING IT.")
                         .setContentIntent(resultPendingIntent);
         int mNotificationId = 001;
         NotificationManager mNotifyMgr =
